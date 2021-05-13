@@ -33,7 +33,17 @@
     </nav>
 
 
-
+    <div class="user-info">
+        <h3>Здраво ИмеПрезиме <i class="fas fa-laugh"></i></h3>
+        <div class="device-select">
+            <label for="">За кој уред сакаш да видиш информации?</label>
+            <select>
+                <option value="">Одбери паметен уред</option>
+                <option value="device1">уред1</option>
+                <option value="device2">уред2</option>
+            </select>
+        </div>
+    </div>
     <div class="main">
 
         <div class="chart">
@@ -42,19 +52,20 @@
 
         </div>
 
-        <form  class="select-data-panel">
+        <form class="select-data-panel">
             <div class="type-select-section">
-                
-                    <select name="type" id="type">
-                        <option value="">Одбери параметар</option>
-                        <option value="kislorodnaSaturacija">Кислородна Сатурација</option>
-                        <option value="otcukuvanjaNaSrceVoMinuta">Отчукувања на срце во минута</option>
-                        <option value="varijacijaNaSrcebienje">Варијација на срцебиење</option>
-                    
-                    </select>
-                    <p class="usage-info">*Одбери тип на параметар, временски интервал во кој сакаш да провериш податоци и испиши ги податоците на графикот.</p>
-               
-                
+
+                <select name="type" id="type">
+                    <option value="">Одбери параметар</option>
+                    <option value="kislorodnaSaturacija">Кислородна Сатурација</option>
+                    <option value="otcukuvanjaNaSrceVoMinuta">Отчукувања на срце во минута</option>
+                    <option value="varijacijaNaSrcebienje">Варијација на срцебиење</option>
+
+                </select>
+                <p class="usage-info">*Одбери тип на параметар, временски интервал во кој сакаш да провериш податоци и
+                    испиши ги податоците на графикот.</p>
+
+
                 <div class="type-info">
                     <h4 id="type-info-title"></h4>
                     <p id="type-info-text"></p>
