@@ -1,0 +1,114 @@
+<!--Strana za logiranje-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/login.css">
+
+    <title>Најавување и регистрација</title>
+</head>
+
+<body>
+    <nav></nav>
+    <!--<nav>
+        <div class="logo-section">
+            <a href="./app.html">
+                <span class="logo"><i class="fas fa-walking"></i></span>
+                <span>Апликација за е-здравствo</span>
+            </a>
+        </div>
+        <span class="hamburger-menu"><i class="fas fa-bars"></i></span>
+        <span class="close-menu"><i class="fas fa-times"></i></span>
+        <ul>
+            <li><a href="./zaaplikacijata.html">За апликацијата</a></li>
+            <li><a href="./info.html">Информации</a></li>
+        </ul>
+    </nav>-->
+    <img class="bg-image-float"
+        src="https://cdn2.iconfinder.com/data/icons/e-commerce-solid-6/32/health-healthcare-medicine-ecommerce-512.png"
+        alt="">
+    <img class="bg-image-float1" src="https://cdn4.iconfinder.com/data/icons/medical-and-healthcare-2/64/1-56-512.png"
+        alt="">
+    <img class="bg-image-float2" src="https://image.flaticon.com/icons/png/512/233/233137.png" alt="">
+    <img class="bg-image-float3" src="https://pic.onlinewebfonts.com/svg/img_434370.png" alt="">
+    <img class="bg-image-float4" src="https://pic.onlinewebfonts.com/svg/img_434330.png" alt="">
+    <img class="bg-image-float5" src="https://pic.onlinewebfonts.com/svg/img_434348.png" alt="">
+    <img class="bg-image-float6" src="https://www.shareicon.net/data/2016/04/06/745500_sports_512x512.png" alt="">
+    <div class="form-box">
+        <div class="button-box">
+            <div id="btn"></div>
+            <button type="button" class="toggle-btn reg" onclick="login()">Најавa</button>
+            <button type="button" class="toggle-btn log" onclick="register()">Регистрација</button>
+        </div>
+        <form id="login" class="input-group">
+            <input type="text" class="input-field" placeholder="Корисничко име" required>
+            <input type="password" class="input-field" placeholder="Внеси лозинка" required>
+            <input type="checkbox" class="check-box"><span>Запамти лозинка</span>
+            <button type="submit" class="submit-btn">Најави се</button>
+        </form>
+        <form id="register" class="input-group">
+            <input type="text" class="input-field" placeholder="Корисничко име" required>
+            <input type="text" class="input-field" placeholder="Возраст во години" required>
+            <input type="text" class="input-field" placeholder="Матичен број" required>
+            <label for="" class="smart-type">Тип на паметен уред</label>
+            <select required>
+                <option value="">Избери тип на уред</option>
+                <option value="smartWatch">Паметен часовник</option>
+                <option value="smartPhone">Паметен телефон</option>
+            </select>
+            <input type="email" class="input-field" placeholder="Email" required>
+            <input type="password" class="input-field" placeholder="Внеси лозинка" required>
+
+            <input type="checkbox" class="check-box" required><span>Се согласувам со условите</span>
+            <button type="submit" class="submit-btn">Регистрирај се</button>
+        </form>
+    </div>
+
+    <script>
+        var x = document.getElementById("login");
+        var y = document.getElementById("register");
+        var z = document.getElementById("btn");
+
+        if (window.innerWidth <= 768) {
+            x.style.width = '200px'
+            y.style.width = '200px'
+           
+
+        }
+
+
+        function register() {
+            x.style.left = "-400px";
+            y.style.left = "40px";
+            z.style.left = "110px";
+            if (window.innerWidth <= 768) {
+                y.style.left = "40px";
+                x.style.width = '200px'
+                y.style.width = '200px'
+
+            }
+        }
+
+        function login() {
+            x.style.left = "40px";
+            y.style.left = "450px";
+            z.style.left = "0px";
+            if (window.innerWidth <= 768) {
+
+
+                x.style.width = '200px'
+                y.style.width = '200px'
+            }
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="https://kit.fontawesome.com/4979153394.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!--Funkcionalniot del od aplikacijata,  premesten od index.html za prva strana sto ja otvara da e login stranata-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;1,400&display=swap"
+        rel="stylesheet">
+    <title>Провери вредности</title>
+</head>
+
+<body>
+
+
+    <nav>
+        <div class="logo-section">
+            <a href="./app.html">
+                <span class="logo"><i class="fas fa-walking"></i></span>
+                <span>Апликација за е-здравствo</span>
+            </a>
+        </div>
+        <span class="hamburger-menu"><i class="fas fa-bars"></i></span>
+        <span class="close-menu"><i class="fas fa-times"></i></span>
+        <ul>
+            <li><a href="./index.html">Одјави се</a></li>
+            <li><a href="./zaaplikacijata.html">За апликацијата</a></li>
+            <li><a href="./info.html">Информации</a></li>
+        </ul>
+    </nav>
+
+
+
+    <div class="main">
+
+        <div class="chart">
+            <h2>Име на параметар</h2>
+            <canvas id="myChart"></canvas>
+
+        </div>
+
+        <form  class="select-data-panel">
+            <div class="type-select-section">
+                
+                    <select name="type" id="type">
+                        <option value="">Одбери параметар</option>
+                        <option value="kislorodnaSaturacija">Кислородна Сатурација</option>
+                        <option value="otcukuvanjaNaSrceVoMinuta">Отчукувања на срце во минута</option>
+                        <option value="varijacijaNaSrcebienje">Варијација на срцебиење</option>
+                    
+                    </select>
+                    <p class="usage-info">*Одбери тип на параметар, временски интервал во кој сакаш да провериш податоци и испиши ги податоците на графикот.</p>
+               
+                
+                <div class="type-info">
+                    <h4 id="type-info-title"></h4>
+                    <p id="type-info-text"></p>
+                </div>
+            </div>
+            <div class="date-picker">
+                <div class="date-picker-item">
+                    <h4>Почетен датум</h4>
+                    <input type="date" name="start-date" id="">
+                </div>
+                <div class="date-picker-item">
+                    <h4>Краен датум</h4>
+                    <input type="date" name="end-date" id="">
+                </div>
+            </div>
+            <button>Прикажи податоци</button>
+        </form>
+
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="https://kit.fontawesome.com/4979153394.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
