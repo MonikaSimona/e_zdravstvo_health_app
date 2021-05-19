@@ -1,31 +1,35 @@
 package ehealth.middleware.models;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class User implements Serializable
+public class FullUser implements Serializable
 {
-
+    
     private static final long serialVersionUID = 1L;
-    private int id;
+    private String mbr;
+    private String username;
+    private String password;
     private String firstName;
     private String lastName;
-    private Date birthDate;
+    private String birthDate;
     private int height;
     private int weight;
     private String email;
 
-    public User() 
+    public FullUser() 
     {
 
     }
 
-    public User(int id, String firstName, String lastName, Date birthDate, int height, int weight, String email) 
+    public FullUser(String mbr, String username, String password, String firstName, String lastName, String birthDate, int height, 
+    int weight, String email) 
     {
-        this.id = id;
+        this.mbr = mbr;
+        this.username = username;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -34,14 +38,34 @@ public class User implements Serializable
         this.email = email;
     }
 
-    public int getId() 
+    public String getMbr() 
     {
-        return this.id;
+        return this.mbr;
     }
 
-    public void setId(int id) 
+    public void setMbr(String mbr) 
     {
-        this.id = id;
+        this.mbr = mbr;
+    }
+
+    public String getUsername() 
+    {
+        return this.username;
+    }
+
+    public void setUsername(String username) 
+    {
+        this.username = username;
+    }
+
+    public String getPassword() 
+    {
+        return this.password;
+    }
+
+    public void setPassword(String password) 
+    {
+        this.password = password;
     }
 
     public String getFirstName() 
@@ -49,8 +73,7 @@ public class User implements Serializable
         return this.firstName;
     }
 
-    public void setFirstName(String firstName) 
-    {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -64,11 +87,12 @@ public class User implements Serializable
         this.lastName = lastName;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() 
+    {
         return this.birthDate;
     }
 
-    public void setBirthDate(Date birthDate) 
+    public void setBirthDate(String birthDate) 
     {
         this.birthDate = birthDate;
     }

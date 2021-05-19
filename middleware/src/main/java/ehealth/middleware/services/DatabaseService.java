@@ -1,34 +1,48 @@
 package ehealth.middleware.services;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import ehealth.middleware.models.DatabaseHealthData;
+import ehealth.middleware.models.Measurement;
+import ehealth.middleware.models.MeasurementRequest;
 
 public class DatabaseService 
 {
 
+    private static final String CONN_STRING = "jdbc:sqlserver://localhost\\sqlexpress;databaseName=E-Zdravstvo;integratedSecurity=true";
+    private static final String DB_USER = "";
+    private static final String DB_PASS = "";
+
     public DatabaseService()
     {
-
+        Connection conn = null;
+        try
+        {
+            conn = DriverManager.getConnection(CONN_STRING, DB_USER, DB_PASS);
+            if (conn != null) 
+            {
+                conn.close();
+                return;
+            }
+            else
+            {
+                return;
+            }
+        }
+        catch(SQLException e)
+        {
+            conn = null;
+            return;
+        }
     } 
 
-    public DatabaseHealthData getDataFromDb(String type, String user, Date start, Date end)
+    public List<Measurement> getMeasurements(MeasurementRequest request)
     {
-        if((type.equalsIgnoreCase("heart rate")) && (user.equals("1")))
-        {
-            List<String> datas = new ArrayList<>();
-            datas.add("rand4");
-            datas.add("rand5");
-            datas.add("rand6");
-            DatabaseHealthData dbData = new DatabaseHealthData(datas, user, "lower", "upper");
-            return dbData;
-        }
-        else
-        {
-            return null;
-        }
+        List<Measurement> measurements = new ArrayList<>();
+        return measurements;
     }
     
 }

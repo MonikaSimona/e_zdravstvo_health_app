@@ -1,21 +1,12 @@
 package ehealth.middleware;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-
-import ehealth.middleware.models.DatabaseHealthData;
-import ehealth.middleware.models.HealthData;
-import ehealth.middleware.services.DatabaseService;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class test 
 {
-
-    private DatabaseService service = new DatabaseService();
 
     public test()
     {
@@ -24,30 +15,53 @@ public class test
 
     public static void main(String[] args) 
     {
-        test t = new test();
-        String d1 = "06:31:41 AM 29-11-2017";
-        String d2 = "06:31:41 AM 29-11-2018";
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a dd-MM-yyyy");
-        try 
+       test t = new test();
+       t.printConnectionDetails();
+    }
+
+    private void printConnectionDetails()
+    {
+        String dbURL = "jdbc:sqlserver://localhost\\sqlexpress;databaseName=E-Zdravstvo;integratedSecurity=true";
+        Connection conn = null;
+        try
         {
-            Date date1 = sdf.parse(d1);
-            Date date2 = sdf.parse(d2);
-            System.out.println(date2);
-            HealthData data = new HealthData("heart rate", "1", "06:31:41 AM 29-11-2017", "06:31:41 AM 29-11-2018");
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            try 
+            System.out.println("Trying to establish a connection with the database...");
+            conn = DriverManager.getConnection(dbURL, "", "");
+            if (conn != null) 
             {
-                String json = ow.writeValueAsString(data);
-                System.out.println(json);
-            } 
-            catch (JsonProcessingException e) 
+                DatabaseMetaData dm = (DatabaseMetaData) conn.getMetaData();
+                System.out.println("Driver name: " + dm.getDriverName());
+                System.out.println("Driver version: " + dm.getDriverVersion());
+                System.out.println("Product name: " + dm.getDatabaseProductName());
+                System.out.println("Product version: " + dm.getDatabaseProductVersion());
+            }
+            else
             {
-                e.printStackTrace();
+                System.out.println("Failed to connect to the database.");
             }
         }
-        catch(ParseException e)
+        catch(SQLException e)
         {
-            e.printStackTrace();
+            System.out.println(e.getLocalizedMessage());
+        }
+        finally 
+        {
+            try 
+            {
+                if (conn != null && !conn.isClosed()) 
+                {
+                    conn.close();
+                    System.out.println("The connection is closed.");
+                }
+                else
+                {
+                    System.out.println("The connection is closed.");
+                }
+            } 
+            catch (SQLException ex) 
+            {
+                System.out.println(ex.getLocalizedMessage());
+            }
         }
     }
 

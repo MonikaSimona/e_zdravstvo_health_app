@@ -2,11 +2,12 @@ package ehealth.middleware.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class User implements Serializable
+public class LoginData implements Serializable
 {
 
     private static final long serialVersionUID = 1L;
@@ -14,16 +15,18 @@ public class User implements Serializable
     private String firstName;
     private String lastName;
     private Date birthDate;
-    private int height;
-    private int weight;
+    private long height;
+    private long weight;
     private String email;
+    private List<UserDevice> devices;
 
-    public User() 
+    public LoginData() 
     {
 
     }
 
-    public User(int id, String firstName, String lastName, Date birthDate, int height, int weight, String email) 
+    public LoginData(int id, String firstName, String lastName, Date birthDate, long height, long weight, String email, 
+    List<UserDevice> devices) 
     {
         this.id = id;
         this.firstName = firstName;
@@ -32,6 +35,7 @@ public class User implements Serializable
         this.height = height;
         this.weight = weight;
         this.email = email;
+        this.devices = devices;
     }
 
     public int getId() 
@@ -64,7 +68,8 @@ public class User implements Serializable
         this.lastName = lastName;
     }
 
-    public Date getBirthDate() {
+    public Date getBirthDate() 
+    {
         return this.birthDate;
     }
 
@@ -73,22 +78,22 @@ public class User implements Serializable
         this.birthDate = birthDate;
     }
 
-    public int getHeight() 
+    public long getHeight() 
     {
         return this.height;
     }
 
-    public void setHeight(int height) 
+    public void setHeight(long height) 
     {
         this.height = height;
     }
 
-    public int getWeight() 
+    public long getWeight() 
     {
         return this.weight;
     }
 
-    public void setWeight(int weight) 
+    public void setWeight(long weight) 
     {
         this.weight = weight;
     }
@@ -103,4 +108,14 @@ public class User implements Serializable
         this.email = email;
     }
 
+    public List<UserDevice> getDevices() 
+    {
+        return this.devices;
+    }
+
+    public void setDevices(List<UserDevice> devices) 
+    {
+        this.devices = devices;
+    }
+ 
 }

@@ -1,6 +1,9 @@
 package ehealth.middleware.resources;
 
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.NotAcceptableException;
@@ -14,22 +17,27 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 
-import ehealth.middleware.models.DatabaseUser;
+import ehealth.middleware.exceptions.InvalidDateFormatException;
+import ehealth.middleware.models.DeviceData;
 import ehealth.middleware.models.ErrorMessage;
+import ehealth.middleware.models.FullUser;
+import ehealth.middleware.models.LoginData;
+import ehealth.middleware.models.LoginUser;
 import ehealth.middleware.models.User;
+import ehealth.middleware.models.UserDevice;
 import ehealth.middleware.services.AuthenticationService;
 
 @Path("/auth")
 public class AuthenticationResource 
 {
     
-    private AuthenticationService service = new AuthenticationService();
+    private AuthenticationService service = new AuthenticationService(); 
 
     @PUT
     @Path("/register")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response registerUser(User user, @Context UriInfo uriInfo)
+    public Response registerUser(FullUser user, @Context UriInfo uriInfo)
     {
         if(user.equals(null))
         {
@@ -37,16 +45,58 @@ public class AuthenticationResource
             Response rsp = Response.status(Status.NOT_ACCEPTABLE).entity(msg).build();
             throw new NotAcceptableException(rsp);
         }
-        DatabaseUser registered = service.register(user.getUsername(), user.getPassword());
-        if(registered == null)
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try
         {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Error while registering a new account, username: " + 
-            user.getUsername() + " is already taken.").build();
+            Date birth = null;
+            birth = sdf.parse(user.getBirthDate());
+            if(birth == null)
+            {
+                ErrorMessage msg = new ErrorMessage("Not acceptable", 406, "Please provide a birth date in a valid format of: dd/MM/yyyy.");
+                throw new InvalidDateFormatException(msg);
+            }
+            User registered = service.register(user);
+            if(registered == null)
+            {
+                return Response.status(Response.Status.BAD_REQUEST).entity("Error while registering a new account, the MBR: " + 
+                user.getMbr() + ", Email: " + user.getEmail() + " or Username: " + user.getUsername() + " is already taken.").build();
+            }
+            else
+            {
+                URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(registered.getId())).build();
+                return Response.created(uri).build();
+            }
+        }
+        catch (ParseException e) 
+        {
+            ErrorMessage msg = new ErrorMessage("Not acceptable", 406, "Please provide a birth date in a valid format of: dd-MM-yyyy.");
+            throw new InvalidDateFormatException(msg);
+        }
+    }
+
+    @PUT
+    @Path("/addDevice")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public UserDevice addDevice(DeviceData device)
+    {
+        if(device.equals(null))
+        {
+            ErrorMessage msg = new ErrorMessage("Not acceptable", 406, "Please provide an input object with credentials.");
+            Response rsp = Response.status(Status.NOT_ACCEPTABLE).entity(msg).build();
+            throw new NotAcceptableException(rsp);
+        }
+        UserDevice dvc = service.addDevice(device);
+        if(dvc == null)
+        {
+            ErrorMessage msg = new ErrorMessage("Not found", 404, "Either an incorrect user ID is provided" +
+            " or the device's name: " + device.getName() + " is already in use by this user.");
+            Response rsp = Response.status(Status.NOT_FOUND).entity(msg).build();
+            throw new NotFoundException(rsp);
         }
         else
         {
-            URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(registered.getUserId())).build();
-            return Response.created(uri).build();
+            return dvc;
         }
     }
 
@@ -54,7 +104,7 @@ public class AuthenticationResource
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public DatabaseUser loginUser(User user)
+    public LoginData loginUser(LoginUser user)
     {
         if(user.equals(null))
         {
@@ -62,10 +112,10 @@ public class AuthenticationResource
             Response rsp = Response.status(Status.NOT_ACCEPTABLE).entity(msg).build();
             throw new NotAcceptableException(rsp);
         }
-        DatabaseUser logged = service.login(user.getUsername(), user.getPassword());
+        LoginData logged = service.login(user);
         if(logged == null)
         {
-            ErrorMessage msg = new ErrorMessage("Not found", 404, "The user with username=" + user.getUsername() + " does not exist.");
+            ErrorMessage msg = new ErrorMessage("Not found", 404, "Incorrect username and/or password.");
             Response rsp = Response.status(Status.NOT_FOUND).entity(msg).build();
             throw new NotFoundException(rsp);
         }
