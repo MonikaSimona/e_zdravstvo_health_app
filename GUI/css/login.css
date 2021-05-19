@@ -99,7 +99,7 @@ body {
 }
 .form-box {
   width: 380px;
-  height: 550px;
+  height: 600px;
   position: relative;
   margin: 6% auto;
   background: #c8fdbe9d;
@@ -194,7 +194,7 @@ body {
 }
 
 .input-group {
-  top: 140px;
+  top: 100px;
   position: absolute;
   width: 280px;
   transition: 0.5s;
