@@ -42,7 +42,8 @@ public class AuthenticationResource
         if(user.equals(null))
         {
             ErrorMessage msg = new ErrorMessage("Not acceptable", 406, "Please provide an input object with credentials.");
-            Response rsp = Response.status(Status.NOT_ACCEPTABLE).entity(msg).build();
+            Response rsp = Response.status(Status.NOT_ACCEPTABLE).header("Access-Control-Allow-Origin", "*")
+            .entity(msg).build();
             throw new NotAcceptableException(rsp);
         }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -58,13 +59,15 @@ public class AuthenticationResource
             User registered = service.register(user);
             if(registered == null)
             {
-                return Response.status(Response.Status.BAD_REQUEST).entity("Error while registering a new account, the MBR: " + 
+                return Response.status(Response.Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "*")
+                .entity("Error while registering a new account, the MBR: " + 
                 user.getMbr() + ", Email: " + user.getEmail() + " or Username: " + user.getUsername() + " is already taken.").build();
             }
             else
             {
                 URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(registered.getId())).build();
-                return Response.created(uri).build();
+                return Response.created(uri).header("Access-Control-Allow-Origin", "*")
+                .build();
             }
         }
         catch (ParseException e) 
@@ -78,12 +81,13 @@ public class AuthenticationResource
     @Path("/addDevice")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public UserDevice addDevice(DeviceData device)
+    public Response addDevice(DeviceData device)
     {
         if(device.equals(null))
         {
             ErrorMessage msg = new ErrorMessage("Not acceptable", 406, "Please provide an input object with credentials.");
-            Response rsp = Response.status(Status.NOT_ACCEPTABLE).entity(msg).build();
+            Response rsp = Response.status(Status.NOT_ACCEPTABLE).header("Access-Control-Allow-Origin", "*")
+            .entity(msg).build();
             throw new NotAcceptableException(rsp);
         }
         UserDevice dvc = service.addDevice(device);
@@ -91,12 +95,14 @@ public class AuthenticationResource
         {
             ErrorMessage msg = new ErrorMessage("Not found", 404, "Either an incorrect user ID is provided" +
             " or the device's name: " + device.getName() + " is already in use by this user.");
-            Response rsp = Response.status(Status.NOT_FOUND).entity(msg).build();
+            Response rsp = Response.status(Status.NOT_FOUND).header("Access-Control-Allow-Origin", "*")
+            .entity(msg).build();
             throw new NotFoundException(rsp);
         }
         else
         {
-            return dvc;
+            return Response.status(Status.OK).header("Access-Control-Allow-Origin", "*")
+            .entity(dvc).build();
         }
     }
 
@@ -104,24 +110,27 @@ public class AuthenticationResource
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public LoginData loginUser(LoginUser user)
+    public Response loginUser(LoginUser user)
     {
         if(user.equals(null))
         {
             ErrorMessage msg = new ErrorMessage("Not acceptable", 406, "Please provide an input object with credentials.");
-            Response rsp = Response.status(Status.NOT_ACCEPTABLE).entity(msg).build();
+            Response rsp = Response.status(Status.NOT_ACCEPTABLE).header("Access-Control-Allow-Origin", "*")
+            .entity(msg).build();
             throw new NotAcceptableException(rsp);
         }
         LoginData logged = service.login(user);
         if(logged == null)
         {
             ErrorMessage msg = new ErrorMessage("Not found", 404, "Incorrect username and/or password.");
-            Response rsp = Response.status(Status.NOT_FOUND).entity(msg).build();
+            Response rsp = Response.status(Status.NOT_FOUND).header("Access-Control-Allow-Origin", "*")
+            .entity(msg).build();
             throw new NotFoundException(rsp);
         }
         else
         {
-            return logged;
+            return Response.status(Status.OK).header("Access-Control-Allow-Origin", "*")
+            .entity(logged).build();
         }
     }
 
