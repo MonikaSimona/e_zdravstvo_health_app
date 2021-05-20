@@ -5,7 +5,7 @@ var z = document.getElementById("btn");
 if (window.innerWidth <= 768) {
     x.style.width = '200px'
     y.style.width = '200px'
-   
+
 
 }
 
@@ -38,52 +38,66 @@ var firstName = ''
 var lastName = ''
 var birthDate = ''
 var mbr = ''
-var height = ''
-var weight = ''
+var height
+var weight
 var password = ''
 var email = ''
 
-var userRegistrationData = {
-    firstName:'',
-    lastName:'', 
-    birthDate:'',
-    mbr:'',
-    height:'',
-    weight:'',
-    password:'',
-    email:''
 
-}
 
 var registrationForm = document.querySelector('#register');
 registrationForm.addEventListener('submit', (event) => {
-    
-    
 
-    firstName = event.target[0].value
-    lastName = event.target[1].value
-    birthDate = event.target[2].value
-    mbr = event.target[3].value
-    height = event.target[4].value
-    weight = event.target[5].value
-    email = event.target[6].value
-    password = event.target[7].value
 
-    userRegistrationData = {
-        firstName,
-        lastName, 
-        birthDate,
+    event.preventDefault();
+    username = event.target[0].value
+    firstName = event.target[1].value
+    lastName = event.target[2].value
+    birthDate = event.target[3].value
+    mbr = event.target[4].value
+    height = parseInt(event.target[5].value)
+    weight = parseInt(event.target[6].value)
+    email = event.target[7].value
+    password = event.target[8].value
+
+    const userRegistrationData = {
         mbr,
+        username,
+        password,
+        firstName,
+        lastName,
+        birthDate,
         height,
         weight,
-        password,
         email
     }
-    fetch('')
-    
+    localStorage.setItem('userData', JSON.stringify(userRegistrationData));
     console.log(userRegistrationData)
-    
-    event.preventDefault();
+    fetch('http://localhost:8080/middleware/webapi/auth/register', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive',
 
- 
+
+
+        },
+        body: JSON.stringify(userRegistrationData)
+    }).then(response => {
+        console.log(response)
+    }).then(data => {
+        console.log(data)
+    })
+        .catch(err => {
+            console.log(err)
+            console.log(err.response)
+            console.log(err.message)
+        });
+
+
+
+
+
 })
