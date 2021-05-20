@@ -26,7 +26,7 @@
         <span class="hamburger-menu"><i class="fas fa-bars"></i></span>
         <span class="close-menu"><i class="fas fa-times"></i></span>
         <ul>
-            <li><a href="./index.html">Одјави се</a></li>
+            <li><a href="./index.html" id='logout'>Одјави се</a></li>
             <li><a href="./zaaplikacijata.html">За апликацијата</a></li>
             <li><a href="./info.html">Информации</a></li>
         </ul>
@@ -34,7 +34,7 @@
 
 
     <div class="user-info">
-        <h3>Здраво ИмеПрезиме <i class="fas fa-laugh"></i></h3>
+        <h3 id='userNameTitle'>Здраво ИмеПрезиме <i class="fas fa-laugh"></i></h3>
         <div class="device-select">
             <label for="">За кој уред сакаш да видиш информации?</label>
             <select>
@@ -86,11 +86,12 @@
 
     </div>
 
-
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="./js/main.js"></script>
     <script src="https://kit.fontawesome.com/4979153394.js" crossorigin="anonymous"></script>
+    <script src="./js/loginRegister.js"></script>
 </body>
 
 </html>

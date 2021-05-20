@@ -1,3 +1,5 @@
+
+
 var x = document.getElementById("login");
 var y = document.getElementById("register");
 var z = document.getElementById("btn");
@@ -33,6 +35,68 @@ function login() {
         y.style.width = '200px'
     }
 }
+
+
+userStorage = localStorage.getItem('userData');
+if (userData) {
+    if (userStorage) {
+        // location.assign('http://127.0.0.1:5500/GUI/app.html')
+        var userData = JSON.parse(userStorage);
+
+    }
+
+}
+
+var username = ''
+var password = ''
+var loginFrom = document.querySelector('#login');
+
+loginFrom.addEventListener('submit', (event) => {
+    event.preventDefault();
+    username = event.target[0].value;
+    password = event.target[1].value;
+    const userLogin = {
+        username,
+        password
+    }
+
+    loginData = JSON.parse(localStorage.getItem('userData'));
+    console.log(loginData)
+    if(username === loginData.username && password === loginData.password){
+        location.assign('http://127.0.0.1:5500/GUI/app.html')
+    }
+ console.log(userLogin);
+ console.log(JSON.stringify(userLogin));
+    // fetch('http://localhost:8080/middleware/webapi/auth/login', {
+    //     method: 'PUT',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Accept': 'application/json',
+    //         'Accept-Encoding': 'gzip, deflate, br',
+    //         'Connection': 'keep-alive'
+
+
+
+    //     },
+    //     body: JSON.stringify(userLogin)
+    // }).then(response => {
+    //     // console.log(response)
+    //     return response
+    // }).then(data => {
+    //     console.log(data)
+
+    // })
+    //     .catch(err => {
+    //         console.log(err)
+    //         console.log(err.response)
+    //         console.log(err.message)
+    //     });
+
+
+})
+
+
+
 //registration 
 var firstName = ''
 var lastName = ''
@@ -72,14 +136,16 @@ registrationForm.addEventListener('submit', (event) => {
         email
     }
     localStorage.setItem('userData', JSON.stringify(userRegistrationData));
+
     console.log(userRegistrationData)
+
     fetch('http://localhost:8080/middleware/webapi/auth/register', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Accept-Encoding': 'gzip, deflate, br',
-            'Connection': 'keep-alive',
+            'Connection': 'keep-alive'
 
 
 
@@ -96,7 +162,7 @@ registrationForm.addEventListener('submit', (event) => {
             console.log(err.message)
         });
 
-
+    location.assign('http://127.0.0.1:5500/GUI/app.html')
 
 
 

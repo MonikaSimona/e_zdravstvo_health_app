@@ -1,42 +1,13 @@
+userStorage = localStorage.getItem('userData');
+var userNameTitle = document.querySelector('#userNameTitle');
+if (userStorage) {
+    if (userStorage) {
+        // location.assign('http://127.0.0.1:5500/GUI/app.html')
+        var userData = JSON.parse(userStorage);
+        userNameTitle.innerHTML = `Здраво ${userData.firstName} ${userData.lastName}`
+    }
 
-//login
-
-// var x = document.getElementById("login");
-// var y = document.getElementById("register");
-// var z = document.getElementById("btn");
-
-// if (window.innerWidth <= 768) {
-//     x.style.width = '200px'
-//     y.style.width = '200px'
-   
-
-// }
-
-
-// function register() {
-//     x.style.left = "-400px";
-//     y.style.left = "40px";
-//     z.style.left = "110px";
-//     if (window.innerWidth <= 768) {
-//         y.style.left = "40px";
-//         x.style.width = '200px'
-//         y.style.width = '200px'
-
-//     }
-// }
-
-// function login() {
-//     x.style.left = "40px";
-//     y.style.left = "450px";
-//     z.style.left = "0px";
-//     if (window.innerWidth <= 768) {
-
-
-//         x.style.width = '200px'
-//         y.style.width = '200px'
-//     }
-// }
-
+}
 //chart
 
 const labels = [
@@ -75,7 +46,15 @@ btn.addEventListener('click', () => {
 
 
 
+//logout 
 
+var logoutButton = document.querySelector('#logout');
+
+logoutButton.addEventListener('click', () => {
+  if(localStorage.getItem('login')){
+    localStorage.removeItem('login')
+  }
+})
 
 
 //hamburger menu
