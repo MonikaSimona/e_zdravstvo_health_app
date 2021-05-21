@@ -1,51 +1,7 @@
+$(()=> {
 
 
-var x = document.getElementById("login");
-var y = document.getElementById("register");
-var z = document.getElementById("btn");
-
-if (window.innerWidth <= 768) {
-    x.style.width = '200px'
-    y.style.width = '200px'
-
-
-}
-
-
-function register() {
-    x.style.left = "-400px";
-    y.style.left = "40px";
-    z.style.left = "110px";
-    if (window.innerWidth <= 768) {
-        y.style.left = "40px";
-        x.style.width = '200px'
-        y.style.width = '200px'
-
-    }
-}
-
-function login() {
-    x.style.left = "40px";
-    y.style.left = "450px";
-    z.style.left = "0px";
-    if (window.innerWidth <= 768) {
-
-
-        x.style.width = '200px'
-        y.style.width = '200px'
-    }
-}
-
-
-userStorage = localStorage.getItem('userData');
-if (userData) {
-    if (userStorage) {
-        // location.assign('http://127.0.0.1:5500/GUI/app.html')
-        var userData = JSON.parse(userStorage);
-
-    }
-
-}
+//LOGIN
 
 var username = ''
 var password = ''
@@ -60,13 +16,38 @@ loginFrom.addEventListener('submit', (event) => {
         password
     }
 
-    loginData = JSON.parse(localStorage.getItem('userData'));
-    console.log(loginData)
-    if(username === loginData.username && password === loginData.password){
-        location.assign('http://127.0.0.1:5500/GUI/app.html')
-    }
- console.log(userLogin);
- console.log(JSON.stringify(userLogin));
+    $.ajax({  
+        url: 'http://localhost:8080/middleware/webapi/auth/login',  
+        type: 'PUT',  
+        dataType: 'json', 
+        data: JSON.stringify(userLogin),  
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive'
+        },
+        success: function (data,textStatus, xhr) {  
+            console.log("Success" + data);  
+            console.log("TextStatus" + textStatus);  
+            console.log("XHR" + xhr);  
+        },  
+        error: function (xhr, textStatus, errorThrown) {  
+            console.log(xhr)
+            console.log(textStatus)
+            console.log(errorThrown)
+            console.log('Error in Operation');  
+        }  
+    });  
+
+    //logiranje preku localStorage
+    // loginData = JSON.parse(localStorage.getItem('userData'));
+    // console.log(loginData)
+    // if (username === loginData.username && password === loginData.password) {
+    //   location.assign('http://127.0.0.1:5500/GUI/app.html')
+    // }
+    //   console.log(userLogin);
+    //   console.log(JSON.stringify(userLogin));
     // fetch('http://localhost:8080/middleware/webapi/auth/login', {
     //     method: 'PUT',
     //     headers: {
@@ -75,21 +56,15 @@ loginFrom.addEventListener('submit', (event) => {
     //         'Accept-Encoding': 'gzip, deflate, br',
     //         'Connection': 'keep-alive'
 
-
-
     //     },
     //     body: JSON.stringify(userLogin)
-    // }).then(response => {
-    //     // console.log(response)
-    //     return response
-    // }).then(data => {
-    //     console.log(data)
+    // }).then(response => response.json())
+    //     .then(data => {
+    //         console.log("Success:" + data)
 
-    // })
+    //     })
     //     .catch(err => {
-    //         console.log(err)
-    //         console.log(err.response)
-    //         console.log(err.message)
+    //         console.log("Error: " + err)
     //     });
 
 
@@ -97,7 +72,8 @@ loginFrom.addEventListener('submit', (event) => {
 
 
 
-//registration 
+//REGISTER
+
 var firstName = ''
 var lastName = ''
 var birthDate = ''
@@ -108,12 +84,12 @@ var password = ''
 var email = ''
 
 
-
 var registrationForm = document.querySelector('#register');
 registrationForm.addEventListener('submit', (event) => {
 
 
     event.preventDefault();
+    //gi zima value na inputite od formata
     username = event.target[0].value
     firstName = event.target[1].value
     lastName = event.target[2].value
@@ -124,6 +100,7 @@ registrationForm.addEventListener('submit', (event) => {
     email = event.target[7].value
     password = event.target[8].value
 
+    //kreira object od inputite
     const userRegistrationData = {
         mbr,
         username,
@@ -141,6 +118,7 @@ registrationForm.addEventListener('submit', (event) => {
 
     fetch('http://localhost:8080/middleware/webapi/auth/register', {
         method: 'PUT',
+        // mode:'cors',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -148,13 +126,14 @@ registrationForm.addEventListener('submit', (event) => {
             'Connection': 'keep-alive'
 
 
-
         },
         body: JSON.stringify(userRegistrationData)
     }).then(response => {
-        console.log(response)
+        console.log(response.status)
+        return response.json()
     }).then(data => {
         console.log(data)
+
     })
         .catch(err => {
             console.log(err)
@@ -162,8 +141,19 @@ registrationForm.addEventListener('submit', (event) => {
             console.log(err.message)
         });
 
-    location.assign('http://127.0.0.1:5500/GUI/app.html')
+    event.target[0].value = ''
+    // event.target[1].value = ''
+    // event.target[2].value = ''
+    // event.target[3].value = ''
+    event.target[4].value = ''
+    // event.target[5].value = ''
+    // event.target[6].value = ''
+    event.target[7].value = ''
+    event.target[8].value = ''
+    // nosi na glavnata strana otkako kje se registrira(najverojatno nema da se koristi ova)
+    // location.assign('http://127.0.0.1:5500/GUI/app.html')
 
 
 
+})
 })

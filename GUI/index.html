@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/login.css">
-
+    <link rel="shortcut icon" type="image/jpg" href="./assets/favicon.ico"/>
     <title>Најавување и регистрација</title>
 </head>
 
@@ -44,19 +44,19 @@
             <button type="button" class="toggle-btn log" onclick="register()">Регистрација</button>
         </div>
         <form id="login" class="input-group">
-            <input type="text" class="input-field"   placeholder="Корисничко име" value='value' required>
+            <input type="text" class="input-field"   placeholder="Корисничко име"  required>
             <input type="password" class="input-field" placeholder="Внеси лозинка" >
             <input type="checkbox" class="check-box"><span>Запамти лозинка</span>
             <input type="submit" class="submit-btn" value='Логирај се'/>
         </form>
         <form id="register" class="input-group">
             <input type="text" class="input-field" placeholder="Корисничко име">
-            <input type="text" class="input-field" id='firstName' placeholder="Име" required>
-            <input type="text" class="input-field" id='lastName' placeholder="Презиме" required>
-            <input type="text" class="input-field" placeholder="Датум на раѓање: дд/мм/гггг" >
-            <input type="text" class="input-field" placeholder="Матичен број-последни 6 цифри" maxlength="6" >
-            <input type="text" class="input-field" placeholder="Висина во цм" >
-            <input type="text" class="input-field" placeholder="Тежина во кг" >
+            <input type="text" class="input-field" id='firstName' placeholder="Име" value="testime" required>
+            <input type="text" class="input-field" id='lastName' placeholder="Презиме" value="testprezime" required>
+            <input type="text" class="input-field" placeholder="Датум на раѓање: дд/мм/гггг" value="01/01/1998" >
+            <input type="text"  class="input-field" placeholder="Матичен број-последни 6 цифри" maxlength="6" >
+            <input type="text" class="input-field" placeholder="Висина во цм"  value="150">
+            <input type="text" class="input-field" placeholder="Тежина во кг" value="50">
         
             <input type="email" class="input-field" placeholder="Email" >
             <input type="password" class="input-field" placeholder="Внеси лозинка" >
@@ -71,7 +71,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    
     <script src="https://kit.fontawesome.com/4979153394.js" crossorigin="anonymous"></script>
+    <script src="./js/loginlayout.js"></script>
     <script src="./js/loginRegister.js"></script>
+    <!-- <script src="./js/main.js"></script> -->
 </body>
 
 </html>
