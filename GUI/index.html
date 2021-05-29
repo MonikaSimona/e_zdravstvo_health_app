@@ -45,25 +45,29 @@
         </div>
         <form id="login" class="input-group">
             <input type="text" class="input-field"   placeholder="Корисничко име"  required>
-            <input type="password" class="input-field" placeholder="Внеси лозинка" >
-            <input type="checkbox" class="check-box"><span>Запамти лозинка</span>
+            <input type="password" class="input-field" placeholder="Внеси лозинка" required>
+            <!-- <input type="checkbox" class="check-box"><span>Запамти лозинка</span> -->
             <input type="submit" class="submit-btn" value='Логирај се'/>
         </form>
         <form id="register" class="input-group">
-            <input type="text" class="input-field" placeholder="Корисничко име">
-            <input type="text" class="input-field" id='firstName' placeholder="Име" value="testime" required>
-            <input type="text" class="input-field" id='lastName' placeholder="Презиме" value="testprezime" required>
-            <input type="text" class="input-field" placeholder="Датум на раѓање: дд/мм/гггг" value="01/01/1998" >
+            <input type="text" class="input-field" placeholder="Корисничко име" >
+            <input type="text" class="input-field" id='firstName' placeholder="Име" value="testime" >
+            <input type="text" class="input-field" id='lastName' placeholder="Презиме" value="testprezime" >
+            <input type="text" class="input-field" placeholder="Датум на раѓање: дд/мм/гггг" value="01/01/1998"  >
             <input type="text"  class="input-field" placeholder="Матичен број-последни 6 цифри" maxlength="6" >
-            <input type="text" class="input-field" placeholder="Висина во цм"  value="150">
-            <input type="text" class="input-field" placeholder="Тежина во кг" value="50">
+            <input type="text" class="input-field" placeholder="Висина во цм"  value="150" >
+            <input type="text" class="input-field" placeholder="Тежина во кг" value="50" >
         
-            <input type="email" class="input-field" placeholder="Email" >
+            <input type="email" class="input-field" placeholder="Email"  >
             <input type="password" class="input-field" placeholder="Внеси лозинка" >
 
             <input type="submit" class="submit-btn" id='reg' value='Регистрирај се'/>
         </form>
     </div>
+    <div id="snackbar-s">Успешна регистрација. Премини кон најава!</div>
+    <div id="snackbar-f">Пополни ги сите полиња!</div>
+    <div id="logedError">Погрешно Корисничко име или Лозинка!</div>
+    <div id="snackbar-e">Погрешно Корисничко име или Лозинка!</div>
 
   
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

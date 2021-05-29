@@ -36,14 +36,26 @@ btn.addEventListener('click', () => {
   document.documentElement.scrollTop = 1000;
 })
 
+//LOGED USER
 
+//korisnikot koga se najavuva dokolku uspesno se najavi podatocite zemeni od baza se zacuvuaat vo localStorage i app.html od tamu gi povlekuva
+var userInfo = localStorage.getItem("logedUser");
+
+//ZS//userData se podatoci zacuvani vo localStorage pri register -> za simulacija
+// var userInfo = localStorage.getItem("userData");
+if(userInfo){
+  var firstName = JSON.parse(userInfo).firstName; 
+  var lastName = JSON.parse(userInfo).lastName; 
+  var userNameTitle = document.querySelector('#userNameTitle');
+  userNameTitle.innerHTML = `Здраво ${firstName} ${lastName}`;
+}
 
 //LOGOUT
 var logoutButton = document.querySelector('#logout');
 
   logoutButton.addEventListener('click', () => {
-    if (localStorage.getItem('login')) {
-      localStorage.removeItem('login')
+    if (localStorage.getItem('logedUser')) {
+      localStorage.removeItem('logedUser')
     }
   })
 

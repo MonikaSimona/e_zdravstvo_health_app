@@ -281,3 +281,53 @@ nav {
   box-shadow: 0 0px 15px -10px rgba(0, 0, 0, 0.507);
   margin-bottom: 20px;
 }
+
+/* snackbar so poraka za registracija */
+
+#snackbar-s, #snackbar-f, #logedError, #snackbar-e{
+  visibility: hidden;
+  min-width: 250px;
+  background-color: #c8fdbee0;
+  color: black;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 50px;
+  font-size: 17px;
+  border-radius: 5px;
+}
+#snackbar-f, #logedError, #snackbar-e{
+  background-color: #fdc7bee0;
+}
+
+
+
+#snackbar-s.show, #snackbar-f.show, #logedError.show, #snackbar-e.show{
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 50px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 50px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 50px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 50px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
