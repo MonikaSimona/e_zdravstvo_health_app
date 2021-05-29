@@ -26,7 +26,7 @@ $(() => {
         // if (username === loginData.username && password === loginData.password) {
         //     logedError = false
         //     location.assign('http://127.0.0.1:5500/GUI/app.html')
-            
+
         // } else {
         //     console.log('error')
         //     logedError = true
@@ -43,16 +43,20 @@ $(() => {
 
             },
             body: JSON.stringify(userLogin)
-        }).then(response => response.json())
-            .then(data => {
-                console.log("Success:" + data)
-                logedUserData = data;
-                // apito gi dava podatocite za korisnikot i se zacuvuvaat vo localStorage za da moze app.html da gi prevzeme i za da korisnikot ostane najaven
-                localStorage.setItem("logedUser",JSON.stringify(logedUserData));
-                
-                location.assign('http://127.0.0.1:5500/GUI/app.html')
+        }).then(response => {
+            console.log("RESPONSE: ", response.json())
+            return response.json()
+        }).then(data => {
+            console.log("Success:" + JSON.parse(data))
+            logedUserData = JSON.parse(data)
+            logedError = false
+            // apito gi dava podatocite za korisnikot i se zacuvuvaat vo localStorage za da moze app.html da gi prevzeme i za da korisnikot ostane najaven
+            localStorage.setItem("logedUser", JSON.stringify(logedUserData));
 
-            })
+            location.assign('http://127.0.0.1:5500/GUI/app.html')
+
+
+        })
             .catch(err => {
                 console.log("Error: " + err)
                 logedError = true;
@@ -69,8 +73,8 @@ $(() => {
             console.log(logedError)
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
 
-        }else{
-            localStorage.setItem("logedUser",JSON.stringify(userLogin));
+        } else {
+            localStorage.setItem("logedUser", JSON.stringify(userLogin));
         }
 
 
@@ -90,7 +94,7 @@ $(() => {
     var email = ''
 
     var registered = "";
-    
+
     var registrationForm = document.querySelector('#register');
     registrationForm.addEventListener('submit', (event) => {
 
@@ -119,8 +123,8 @@ $(() => {
             weight,
             email
         }
-        
-        
+
+
 
         console.log(userRegistrationData)
 
@@ -135,7 +139,7 @@ $(() => {
             weight === '' ||
             password === '') {
             registered = "prazniPolinja"
-        } 
+        }
         //ZS // za simulacija
         // else {
         //     registered = "registriran"
@@ -164,13 +168,24 @@ $(() => {
             body: JSON.stringify(userRegistrationData)
         }).then(response => {
             console.log(response.status)
-            
+            console.log(response)
+            registered = "registriran";
+            event.target[0].value = ''
+            //komentirani za da ne se brisat za testiranje
+            // event.target[1].value = ''
+            // event.target[2].value = ''
+            // event.target[3].value = ''
+            event.target[4].value = ''
+            // event.target[5].value = ''
+            // event.target[6].value = ''
+            event.target[7].value = ''
+            event.target[8].value = ''
             return response.json()
         }).then(data => {
             console.log(data)
             //dokolku raboti api-to ovde se dobiva informacija deka korisnikot e registriran
+            
             registered = "registriran";
-
             //gi cisti inputite
             event.target[0].value = ''
             //komentirani za da ne se brisat za testiranje
@@ -205,8 +220,8 @@ $(() => {
         } else if (registered === "prazniPolinja") {
             //popolni gi site polinja 
             var x = document.getElementById("snackbar-f");
-            
-        }else if(registered === "greska") {
+
+        } else if (registered === "greska") {
             //korisnikot vekje postoi (apito vrakja error dokolku korisnik vekje postoi) 
             var x = document.getElementById("snackbar-e");
         }
@@ -217,7 +232,7 @@ $(() => {
         if (registered) {
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
 
-        } 
+        }
 
 
 
