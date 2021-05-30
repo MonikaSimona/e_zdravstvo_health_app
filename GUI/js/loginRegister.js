@@ -31,8 +31,8 @@ $(() => {
         //     console.log('error')
         //     logedError = true
         // }
-        console.log(userLogin);
-        console.log(JSON.stringify(userLogin));
+        // console.log(userLogin);
+        // console.log(JSON.stringify(userLogin));
         fetch('http://localhost:8080/middleware/webapi/auth/login', {
             method: 'PUT',
             headers: {
@@ -44,7 +44,15 @@ $(() => {
             },
             body: JSON.stringify(userLogin)
         }).then(response => {
+            console.log("LOGIN STATUS", response.status)
             console.log("RESPONSE: ", response.json())
+            // if (response.status !== 200) {
+            //     logedError = true
+            // } else {
+            //     logedError = false
+            // }
+            logedError =  false
+
             return response.json()
         }).then(data => {
             console.log("Success:" + JSON.parse(data))
@@ -52,14 +60,14 @@ $(() => {
             logedError = false
             // apito gi dava podatocite za korisnikot i se zacuvuvaat vo localStorage za da moze app.html da gi prevzeme i za da korisnikot ostane najaven
             localStorage.setItem("logedUser", JSON.stringify(logedUserData));
+            console.log("uspesno zapisan vo local storage - FETCH")
 
-            location.assign('http://127.0.0.1:5500/GUI/app.html')
 
 
         })
             .catch(err => {
                 console.log("Error: " + err)
-                logedError = true;
+                // logedError = true;
             });
 
 
@@ -75,6 +83,8 @@ $(() => {
 
         } else {
             localStorage.setItem("logedUser", JSON.stringify(userLogin));
+            console.log("uspesno zapisan vo local storage - nadvor od FETCH")
+            location.assign('http://127.0.0.1:5500/GUI/app.html')
         }
 
 
@@ -169,7 +179,12 @@ $(() => {
         }).then(response => {
             console.log(response.status)
             console.log(response)
-            registered = "registriran";
+            if (response.status !== 201) {
+                registered = "greska"
+            } else {
+                registered = "registriran";
+            }
+
             event.target[0].value = ''
             //komentirani za da ne se brisat za testiranje
             // event.target[1].value = ''
@@ -183,27 +198,12 @@ $(() => {
             return response.json()
         }).then(data => {
             console.log(data)
-            //dokolku raboti api-to ovde se dobiva informacija deka korisnikot e registriran
-            
-            registered = "registriran";
-            //gi cisti inputite
-            event.target[0].value = ''
-            //komentirani za da ne se brisat za testiranje
-            // event.target[1].value = ''
-            // event.target[2].value = ''
-            // event.target[3].value = ''
-            event.target[4].value = ''
-            // event.target[5].value = ''
-            // event.target[6].value = ''
-            event.target[7].value = ''
-            event.target[8].value = ''
-
         })
             .catch(err => {
                 console.log(err)
                 console.log(err.response)
                 console.log(err.message)
-                registered = "greska"
+
             });
 
 
@@ -221,7 +221,8 @@ $(() => {
             //popolni gi site polinja 
             var x = document.getElementById("snackbar-f");
 
-        } else if (registered === "greska") {
+        }
+        else if (registered === "greska") {
             //korisnikot vekje postoi (apito vrakja error dokolku korisnik vekje postoi) 
             var x = document.getElementById("snackbar-e");
         }
