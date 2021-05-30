@@ -68,10 +68,10 @@ $(() => {
 
         fetchUserData('http://localhost:8080/middleware/webapi/auth/login', userLogin)
             .then(data => {
-                console.log(data)
+                console.log("USER DATA",data)
                 localStorage.setItem("logedUser", JSON.stringify(data));
                 logedError = false
-                setTimeout(() => {location.assign('http://127.0.0.1:5500/GUI/app.html')},3000)
+                // setTimeout(() => {location.assign('http://127.0.0.1:5500/GUI/app.html')},3000)
                 
             })
 
