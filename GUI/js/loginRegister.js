@@ -7,7 +7,7 @@ $(() => {
     var password = ''
     var loginFrom = document.querySelector('#login');
     var logedError = false;
-    var logedUserData = {};
+    
     loginFrom.addEventListener('submit', (event) => {
         event.preventDefault();
         username = event.target[0].value;
@@ -33,58 +33,48 @@ $(() => {
         // }
         // console.log(userLogin);
         // console.log(JSON.stringify(userLogin));
-        fetch('http://localhost:8080/middleware/webapi/auth/login', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Accept-Encoding': 'gzip, deflate, br',
-                'Connection': 'keep-alive'
-
-            },
-            body: JSON.stringify(userLogin)
-        }).then(response => {
-            console.log("LOGIN STATUS", response.status)
-            console.log("RESPONSE: ", response.json())
-            // if (response.status !== 200) {
-            //     logedError = true
-            // } else {
-            //     logedError = false
-            // }
-            logedError =  false
-
-            return response.json()
-        }).then(data => {
-            console.log("Success:" + JSON.parse(data))
-            logedUserData = JSON.parse(data)
-            logedError = false
-            // apito gi dava podatocite za korisnikot i se zacuvuvaat vo localStorage za da moze app.html da gi prevzeme i za da korisnikot ostane najaven
-            localStorage.setItem("logedUser", JSON.stringify(logedUserData));
-            console.log("uspesno zapisan vo local storage - FETCH")
 
 
+        async function fetchUserData(url, data) {
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Connection': 'keep-alive'
 
-        })
-            .catch(err => {
-                console.log("Error: " + err)
-                // logedError = true;
+                },
+                body: JSON.stringify(data)
             });
+
+            console.log(response.status)
+            if(response.status === 200){
+                logedError = false
+            }else{
+                logedError = true
+            }
+            const userData = await response.json();
+            
+            return userData;
+        }
+
+        fetchUserData('http://localhost:8080/middleware/webapi/auth/login', userLogin)
+            .then(data => {
+                logedError = false
+                localStorage.setItem("logedUser", JSON.stringify(data));
+                location.assign('http://127.0.0.1:5500/GUI/app.html')
+            })
 
 
         var x = document.getElementById("logedError");
-
-
-
+        
         x.className = "show";
 
         if (logedError) {
             console.log(logedError)
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
 
-        } else {
-            localStorage.setItem("logedUser", JSON.stringify(userLogin));
-            console.log("uspesno zapisan vo local storage - nadvor od FETCH")
-            location.assign('http://127.0.0.1:5500/GUI/app.html')
         }
 
 
@@ -136,7 +126,7 @@ $(() => {
 
 
 
-        console.log(userRegistrationData)
+        // console.log(userRegistrationData)
 
 
         if (
@@ -196,15 +186,12 @@ $(() => {
             event.target[7].value = ''
             event.target[8].value = ''
             return response.json()
-        }).then(data => {
-            console.log(data)
-        })
-            .catch(err => {
-                console.log(err)
-                console.log(err.response)
-                console.log(err.message)
+        }).catch(err => {
+            console.log(err)
+            console.log(err.response)
+            console.log(err.message)
 
-            });
+        });
 
 
 
