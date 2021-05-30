@@ -3,7 +3,10 @@ $(() => {
 
     var test = document.querySelector('.test')
     test.addEventListener('click', () => {
-        location.assign('http://127.0.0.1:5500/GUI/app.html')
+        localStorage.setItem("uspesno","uspeooooooo")
+        location.assign('http://localhost:5500/GUI/app.html')
+       
+
     })
     //LOGIN
 
@@ -71,7 +74,7 @@ $(() => {
                 console.log("USER DATA",data)
                 localStorage.setItem("logedUser", JSON.stringify(data));
                 logedError = false
-                // setTimeout(() => {location.assign('http://127.0.0.1:5500/GUI/app.html')},3000)
+                setTimeout(() => {location.assign('http://localhost:5500/GUI/app.html')},2000)
                 
             })
 
