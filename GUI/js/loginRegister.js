@@ -1,6 +1,10 @@
 $(() => {
 
 
+    var test = document.querySelector('.test')
+    test.addEventListener('click', () => {
+        location.assign('http://127.0.0.1:5500/GUI/app.html')
+    })
     //LOGIN
 
     var username = ''
