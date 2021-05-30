@@ -8,6 +8,31 @@ $(() => {
     var loginFrom = document.querySelector('#login');
     var logedError = false;
     
+    async function fetchUserData(url, data) {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Connection': 'keep-alive'
+
+            },
+            body: JSON.stringify(data)
+        });
+
+        console.log(response.status)
+
+        if(response.status === 200){
+            logedError = false
+        }else{
+            logedError = true
+        }
+        const userData = await response.json();
+        console.log(userData)
+        return userData;
+    }
+
     loginFrom.addEventListener('submit', (event) => {
         event.preventDefault();
         username = event.target[0].value;
@@ -35,40 +60,20 @@ $(() => {
         // console.log(JSON.stringify(userLogin));
 
 
-        async function fetchUserData(url, data) {
-            const response = await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Accept-Encoding': 'gzip, deflate, br',
-                    'Connection': 'keep-alive'
-
-                },
-                body: JSON.stringify(data)
-            });
-
-            console.log(response.status)
-            if(response.status === 200){
-                logedError = false
-            }else{
-                logedError = true
-            }
-            const userData = await response.json();
-            
-            return userData;
-        }
+        
 
         fetchUserData('http://localhost:8080/middleware/webapi/auth/login', userLogin)
             .then(data => {
-                logedError = false
+                console.log(data)
                 localStorage.setItem("logedUser", JSON.stringify(data));
-                location.assign('http://127.0.0.1:5500/GUI/app.html')
+                logedError = false
+                setTimeout(() => {location.assign('http://127.0.0.1:5500/GUI/app.html')},3000)
+                
             })
 
 
         var x = document.getElementById("logedError");
-        
+
         x.className = "show";
 
         if (logedError) {
