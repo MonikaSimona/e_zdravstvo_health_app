@@ -1,5 +1,7 @@
+// na pocetok dodadov object so devices niza za da imam nesto vo localstorage da proveram dali raboti, otkomentiraj gi dolnite dva komentara i napravi save i kje se dodade vo localStorage devices listata za lokalno testiranje
 
-
+// logedUser = { devices: [{ type: "phone", name: "sony" }, { type: "watch", name: "fitbit" }] }
+// localStorage.setItem("logedUser", JSON.stringify(logedUser))
 //CHART
 
 const labels = [
@@ -29,7 +31,7 @@ const config = {
 
 var chart = document.querySelector('#myChart');
 var myChart = new Chart(chart, config);
-var btn = document.querySelector('button');
+var btn = document.querySelector('.btn');
 
 btn.addEventListener('click', () => {
 
@@ -43,9 +45,9 @@ var userInfo = localStorage.getItem("logedUser");
 
 //ZS//userData se podatoci zacuvani vo localStorage pri register -> za simulacija
 // var userInfo = localStorage.getItem("userData");
-if(userInfo){
-  var firstName = JSON.parse(userInfo).firstName; 
-  var lastName = JSON.parse(userInfo).lastName; 
+if (userInfo) {
+  var firstName = JSON.parse(userInfo).firstName;
+  var lastName = JSON.parse(userInfo).lastName;
   var userNameTitle = document.querySelector('#userNameTitle');
   userNameTitle.innerHTML = `Здраво ${firstName} ${lastName}`;
 }
@@ -53,11 +55,11 @@ if(userInfo){
 //LOGOUT
 var logoutButton = document.querySelector('#logout');
 
-  logoutButton.addEventListener('click', () => {
-    if (localStorage.getItem('logedUser')) {
-      localStorage.removeItem('logedUser')
-    }
-  })
+logoutButton.addEventListener('click', () => {
+  if (localStorage.getItem('logedUser')) {
+    localStorage.removeItem('logedUser')
+  }
+})
 
 
 
@@ -81,12 +83,12 @@ if (menu) {
   })
 }
 
+closeMenu.style.display = 'none';
+closeMenu.addEventListener('click', () => {
+  show = false;
+  menuSection.style.width = '0';
   closeMenu.style.display = 'none';
-  closeMenu.addEventListener('click', () => {
-    show = false;
-    menuSection.style.width = '0';
-    closeMenu.style.display = 'none';
-  })
+})
 
 
 
@@ -101,16 +103,116 @@ var infoTexts = {
   varijacijaNaSrcebienje: 'Кај луѓето на возраст од 50-60 г. нормално е да очекуваме варијација и покачување на крвниот притисок, но денес 40% од пациентите се под 60 г., односно 20-25% од пациентите се на возраст од 30-45 г., од кои почесто на удар се мажите.'
 }
 
-  type.addEventListener('change', () => {
-    var option = document.getElementById("type").options[document.getElementById("type").selectedIndex];
-    typeTitle = option.label;
-    typeValue = option.value;
+type.addEventListener('change', () => {
+  var option = document.getElementById("type").options[document.getElementById("type").selectedIndex];
+  typeTitle = option.label;
+  typeValue = option.value;
 
-    typeInfoTitle.innerText = typeTitle;
-    typeInfoText.innerText = infoTexts[typeValue]
+  typeInfoTitle.innerText = typeTitle;
+  typeInfoText.innerText = infoTexts[typeValue]
 
-  })
+})
 
 
+// GET USER DEVICES
+//dokolku ima vekje uredi (od localStorage go zima celoto userInfo) gi vrti site so map funkcijata i za sekoj ured kreira option element i gi stava vo edna niza, nizata options ja dodava posle elemntot so klasa defaultOption
+var localDevices = []
+var defaultOption = document.querySelector(".defaultOption")
+// console.log(JSON.parse(userInfo))
+//proveruva dali vo localStorage e najaven korisnik i ako e najaven proveruva dali negoavata devices lista e prazna
+if (userInfo) {
+  if (JSON.parse(userInfo).devices) {
+    localDevices = JSON.parse(userInfo).devices
+    // console.log(localDevices)
+    //ako ne e prazna vo default ipisuva slednoto
+    defaultOption.innerHTML = "Одбери паметен уред"
+    // i go polnuva selektot
+    localDevices.forEach((item, index) => {
+      let option = document.createElement("option")
+      option.setAttribute("value", `option${index}`)
+      option.innerHTML = item.name
+      console.log(option)
+      defaultOption.insertAdjacentElement('afterend', option)
+    });
+
+    // ako e prezna go ispisuva slednoto
+  } else {
+    defaultOption.innerHTML = "Нема додадено уреди"
+  }
+}
+
+
+var addDevice = document.querySelector(".button_add");
+var deviceType = document.querySelector(".dropdown")
+var deviceName = document.querySelector(".inputdevice")
+
+var userDevice = {}
+
+//funkcija za dodavanje ured vo bazata
+async function fetchUserDevices(url, data) {
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive'
+
+    },
+    body: JSON.stringify(data)
+  });
+
+  console.log(response.status)
+
+  if (response.status === 200) {
+    logedError = false
+  } else {
+    logedError = true
+  }
+  const userData = await response.json();
+  console.log(userData)
+  return userData;
+}
+
+// i da e prazna i da ne e praza devices listata moze da se doade nov ured na kraj na listata
+var devicesList = document.querySelector(".dropdown1")
+addDevice.addEventListener('click', (event) => {
+  event.preventDefault();
+
+  var type = deviceType.value
+  var name = deviceName.value
+  // console.log(deviceType.value)
+  userDevice = {
+    type,
+    name
+  }
+
+
+  //ako inputite se prazni ne pravi nisto
+  if (type === "" || name === "") {
+    var x = document.getElementById("snackbar-f");
+   
+    
+  } else {
+    //ako inputite se polni go dodava noviot ured vo selektot so uredi  i pojavuva poraka za dodavanje
+    console.log(userDevice)
+
+    devicesList.options[devicesList.options.length] = new Option(`${name} - ${type}`, `${devicesList.options.length - 1}`)
+    var x = document.getElementById("snackbar");
+
+    
+
+  }
+  x.className = "show";
+  setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+
+
+  fetchUserDevices('http://localhost:8080/middleware/webapi/auth/login', userDevice)
+    .then(data => {
+      console.log("DEVICE", data)
+    })
+
+});
 
 
