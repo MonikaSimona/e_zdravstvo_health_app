@@ -67,7 +67,7 @@ $(() => {
             .then(data => {
                 console.log("USER DATA",data)
                 localStorage.setItem("logedUser", JSON.stringify(data));
-                logedError = false
+                
                 setTimeout(() => {location.assign('http://localhost:5500/GUI/app.html')},2000)
                 
             })
@@ -175,10 +175,11 @@ $(() => {
         }).then(response => {
             console.log(response.status)
             console.log(response)
-            if (response.status !== 201) {
-                registered = "greska"
-            } else {
+            if (response.status === 201) {
                 registered = "registriran";
+                
+            } else {
+                registered = "greska"
             }
 
             event.target[0].value = ''

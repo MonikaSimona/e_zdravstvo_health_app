@@ -200,18 +200,16 @@ addDevice.addEventListener('click', (event) => {
     fetchUserDevices('http://localhost:8080/middleware/webapi/auth/addDevice', userDevice)
       .then(data => {
         console.log("DEVICE", data)
-        if (deviceError) {
-          var x = document.getElementById("snackbar-e");
-        } else {
-          //ako inputite se polni go dodava noviot ured vo selektot so uredi  i pojavuva poraka za dodavanje
-
-          devicesList.options[devicesList.options.length] = new Option(`${name} - ${type}`, `${devicesList.options.length - 1}`)
-          var x = document.getElementById("snackbar");
-        }
+      
       })
-
-
-
+      if (deviceError) {
+        var x = document.getElementById("snackbar-e");
+      } else {
+        //ako inputite se polni go dodava noviot ured vo selektot so uredi  i pojavuva poraka za dodavanje
+        var x = document.getElementById("snackbar");
+        devicesList.options[devicesList.options.length] = new Option(`${name} - ${type}`, `${devicesList.options.length - 1}`)
+        
+      }
 
   }
   x.className = "show";
