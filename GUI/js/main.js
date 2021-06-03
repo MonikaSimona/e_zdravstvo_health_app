@@ -179,8 +179,7 @@ async function fetchUserDevices(url, data) {
 var devicesList = document.querySelector(".dropdown1")
 addDevice.addEventListener('click', (event) => {
   event.preventDefault();
-
-  var type = deviceType.value
+  var type = deviceType[deviceType.options.selectedIndex].innerHTML
   var name = deviceName.value
   var userId = JSON.parse(userInfo).id
   // console.log(deviceType.value)
@@ -200,16 +199,17 @@ addDevice.addEventListener('click', (event) => {
     fetchUserDevices('http://localhost:8080/middleware/webapi/auth/addDevice', userDevice)
       .then(data => {
         console.log("DEVICE", data)
-      
+
       })
-      if (deviceError) {
-        var x = document.getElementById("snackbar-e");
-      } else {
-        //ako inputite se polni go dodava noviot ured vo selektot so uredi  i pojavuva poraka za dodavanje
-        var x = document.getElementById("snackbar");
-        devicesList.options[devicesList.options.length] = new Option(`${name} - ${type}`, `${devicesList.options.length - 1}`)
-        
-      }
+    if (deviceError) {
+      var x = document.getElementById("snackbar-e");
+    } else {
+      //ako inputite se polni go dodava noviot ured vo selektot so uredi  i pojavuva poraka za dodavanje
+
+      devicesList.options[devicesList.options.length] = new Option(`${name} - ${type}`, `${devicesList.options.length - 1}`)
+      var x = document.getElementById("snackbar");
+
+    }
 
   }
   x.className = "show";

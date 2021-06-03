@@ -1,14 +1,14 @@
 $(() => {
 
 
-  
+
     //LOGIN
 
     var username = ''
     var password = ''
     var loginFrom = document.querySelector('#login');
-    var logedError = false;
-    
+    var logedError
+
     async function fetchUserData(url, data) {
         const response = await fetch(url, {
             method: 'PUT',
@@ -24,9 +24,9 @@ $(() => {
 
         console.log(response.status)
 
-        if(response.status === 200){
+        if (response.status === 200) {
             logedError = false
-        }else{
+        } else {
             logedError = true
         }
         const userData = await response.json();
@@ -61,27 +61,33 @@ $(() => {
         // console.log(JSON.stringify(userLogin));
 
 
-        
-
         fetchUserData('http://localhost:8080/middleware/webapi/auth/login', userLogin)
             .then(data => {
-                console.log("USER DATA",data)
+                console.log("USER DATA", data)
                 localStorage.setItem("logedUser", JSON.stringify(data));
-                
-                setTimeout(() => {location.assign('http://localhost:5500/GUI/app.html')},2000)
-                
+
+
+
             })
-
-
-        var x = document.getElementById("logedError");
-
-        x.className = "show";
+        console.log(logedError)
 
         if (logedError) {
             console.log(logedError)
+            var x = document.getElementById("logedError");
+            x.className = "show";
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+        } else {
 
+            location.assign('http://localhost:5500/GUI/app.html')
         }
+
+
+  
+
+
+
+
+
 
 
     })
@@ -177,7 +183,7 @@ $(() => {
             console.log(response)
             if (response.status === 201) {
                 registered = "registriran";
-                
+
             } else {
                 registered = "greska"
             }
