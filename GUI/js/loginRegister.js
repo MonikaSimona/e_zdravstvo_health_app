@@ -1,13 +1,7 @@
 $(() => {
 
 
-    var test = document.querySelector('.test')
-    test.addEventListener('click', () => {
-        localStorage.setItem("uspesno","uspeooooooo")
-        location.assign('http://localhost:5500/GUI/app.html')
-       
-
-    })
+  
     //LOGIN
 
     var username = ''
