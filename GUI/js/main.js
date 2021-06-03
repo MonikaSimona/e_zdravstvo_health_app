@@ -147,6 +147,7 @@ var deviceType = document.querySelector(".dropdown")
 var deviceName = document.querySelector(".inputdevice")
 
 var userDevice = {}
+var deviceError
 
 //funkcija za dodavanje ured vo bazata
 async function fetchUserDevices(url, data) {
@@ -165,9 +166,9 @@ async function fetchUserDevices(url, data) {
   console.log(response.status)
 
   if (response.status === 200) {
-    logedError = false
+    deviceError = false
   } else {
-    logedError = true
+    deviceError = true
   }
   const userData = await response.json();
   console.log(userData)
@@ -181,26 +182,36 @@ addDevice.addEventListener('click', (event) => {
 
   var type = deviceType.value
   var name = deviceName.value
+  var userId = JSON.parse(userInfo).id
   // console.log(deviceType.value)
   userDevice = {
     type,
-    name
+    name,
+    userId
   }
 
 
   //ako inputite se prazni ne pravi nisto
   if (type === "" || name === "") {
     var x = document.getElementById("snackbar-f");
-   
-    
+
+
   } else {
-    //ako inputite se polni go dodava noviot ured vo selektot so uredi  i pojavuva poraka za dodavanje
-    console.log(userDevice)
+    fetchUserDevices('http://localhost:8080/middleware/webapi/auth/addDevice', userDevice)
+      .then(data => {
+        console.log("DEVICE", data)
+        if (deviceError) {
+          var x = document.getElementById("snackbar-e");
+        } else {
+          //ako inputite se polni go dodava noviot ured vo selektot so uredi  i pojavuva poraka za dodavanje
 
-    devicesList.options[devicesList.options.length] = new Option(`${name} - ${type}`, `${devicesList.options.length - 1}`)
-    var x = document.getElementById("snackbar");
+          devicesList.options[devicesList.options.length] = new Option(`${name} - ${type}`, `${devicesList.options.length - 1}`)
+          var x = document.getElementById("snackbar");
+        }
+      })
 
-    
+
+
 
   }
   x.className = "show";
@@ -208,10 +219,7 @@ addDevice.addEventListener('click', (event) => {
 
 
 
-  fetchUserDevices('http://localhost:8080/middleware/webapi/auth/login', userDevice)
-    .then(data => {
-      console.log("DEVICE", data)
-    })
+
 
 });
 

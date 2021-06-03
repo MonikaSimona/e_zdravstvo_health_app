@@ -326,7 +326,7 @@ nav .close-menu{
 }
 
 
-#snackbar,#snackbar-f{
+#snackbar,#snackbar-f,#snackbar-e{
   visibility: hidden;
   min-width: 250px;
   background-color: #c8fdbee0;
@@ -342,13 +342,13 @@ nav .close-menu{
   font-size: 17px;
   border-radius: 5px;
 }
-#snackbar-f{
+#snackbar-f,#snackbar-e{
   background-color: #fdc7bee0;
 }
 
 
 
-#snackbar.show, #snackbar-f.show{
+#snackbar.show, #snackbar-f.show, #snackbar-e.show{
   visibility: visible;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
