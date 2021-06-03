@@ -7,7 +7,7 @@ $(() => {
     var username = ''
     var password = ''
     var loginFrom = document.querySelector('#login');
-    var logedError
+    var logedError = false;
 
     async function fetchUserData(url, data) {
         const response = await fetch(url, {
@@ -65,21 +65,19 @@ $(() => {
             .then(data => {
                 console.log("USER DATA", data)
                 localStorage.setItem("logedUser", JSON.stringify(data));
-
+                setTimeout(() => {location.assign('http://localhost:5500/GUI/app.html')},2000)
 
 
             })
         console.log(logedError)
+        var x = document.getElementById("logedError");
 
+        x.className = "show";
         if (logedError) {
             console.log(logedError)
-            var x = document.getElementById("logedError");
-            x.className = "show";
+            
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-        } else {
-
-            location.assign('http://localhost:5500/GUI/app.html')
-        }
+        } 
 
 
   
