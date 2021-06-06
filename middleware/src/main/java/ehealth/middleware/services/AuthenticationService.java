@@ -21,9 +21,9 @@ import ehealth.middleware.models.UserDevice;
 public class AuthenticationService 
 {
 
-    private static final String CONN_STRING = "jdbc:sqlserver://localhost\\sqlexpress;databaseName=E-Zdravstvo;integratedSecurity=true";
-    private static final String DB_USER = "";
-    private static final String DB_PASS = "";
+    private static final String CONN_STRING = "jdbc:sqlserver://localhost\\sqlexpress;databaseName=E-Zdravstvo;";
+    private static final String DB_USER = "stefan";
+    private static final String DB_PASS = "123456";
 
     public AuthenticationService()
     {

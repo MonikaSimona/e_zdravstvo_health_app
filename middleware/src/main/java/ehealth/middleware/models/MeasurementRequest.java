@@ -9,8 +9,8 @@ public class MeasurementRequest implements Serializable
 {
 
     private static final long serialVersionUID = 1L;
-    private long userId;
-    private long deviceId;
+    private int userId;
+    private int deviceId;
     private String type;
     private String fromDate;
     private String toDate;
@@ -20,7 +20,7 @@ public class MeasurementRequest implements Serializable
 
     }
 
-    public MeasurementRequest(long userId, long deviceId, String type, String fromDate, String toDate) 
+    public MeasurementRequest(int userId, int deviceId, String type, String fromDate, String toDate) 
     {
         this.userId = userId;
         this.deviceId = deviceId;
@@ -29,22 +29,22 @@ public class MeasurementRequest implements Serializable
         this.toDate = toDate;
     }
 
-    public long getUserId() 
+    public int getUserId() 
     {
         return this.userId;
     }
 
-    public void setUserId(long userId) 
+    public void setUserId(int userId) 
     {
         this.userId = userId;
     }
 
-    public long getDeviceId() 
+    public int getDeviceId() 
     {
         return this.deviceId;
     }
 
-    public void setDeviceId(long deviceId) 
+    public void setDeviceId(int deviceId) 
     {
         this.deviceId = deviceId;
     }

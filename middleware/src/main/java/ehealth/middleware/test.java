@@ -8,25 +8,25 @@ import java.sql.SQLException;
 public class test 
 {
 
-    public test()
+    public test() 
     {
 
     }
 
     public static void main(String[] args) 
     {
-       test t = new test();
-       t.printConnectionDetails();
+        test t = new test();
+        t.printConnectionDetails();
     }
 
     private void printConnectionDetails()
     {
-        String dbURL = "jdbc:sqlserver://localhost\\sqlexpress;databaseName=E-Zdravstvo;integratedSecurity=true";
+        String dbURL = "jdbc:sqlserver://localhost\\sqlexpress;databaseName=E-Zdravstvo;";
         Connection conn = null;
         try
         {
             System.out.println("Trying to establish a connection with the database...");
-            conn = DriverManager.getConnection(dbURL, "", "");
+            conn = DriverManager.getConnection(dbURL, "stefan", "123456");
             if (conn != null) 
             {
                 DatabaseMetaData dm = (DatabaseMetaData) conn.getMetaData();

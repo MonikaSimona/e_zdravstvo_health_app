@@ -7,8 +7,8 @@ public class Measurement implements Serializable
 {
 
     private static final long serialVersionUID = 1L;
-    private long userId;
-    private long deviceId;
+    private int userId;
+    private int deviceId;
     private Date time;
     private String type;
     private String value;
@@ -18,7 +18,7 @@ public class Measurement implements Serializable
 
     }
 
-    public Measurement(long userId, long deviceId, Date time, String type, String value) 
+    public Measurement(int userId, int deviceId, Date time, String type, String value) 
     {
         this.userId = userId;
         this.deviceId = deviceId;
@@ -27,22 +27,22 @@ public class Measurement implements Serializable
         this.value = value;
     }
 
-    public long getUserId() 
+    public int getUserId() 
     {
         return this.userId;
     }
 
-    public void setUserId(long userId) 
+    public void setUserId(int userId) 
     {
         this.userId = userId;
     }
 
-    public long getDeviceId() 
+    public int getDeviceId() 
     {
         return this.deviceId;
     }
 
-    public void setDeviceId(long deviceId) 
+    public void setDeviceId(int deviceId) 
     {
         this.deviceId = deviceId;
     }

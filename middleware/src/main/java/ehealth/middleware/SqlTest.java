@@ -1,18 +1,19 @@
 package ehealth.middleware;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-
+import ehealth.middleware.models.Measurement;
+import ehealth.middleware.models.MeasurementRequest;
 import ehealth.middleware.models.User;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -24,8 +25,9 @@ public class SqlTest {
 
     public static void main(String[] args) {
         SqlTest t = new SqlTest();
-        // t.printResultOfInsert();
-        // t.printResultOfSelect();
+        //t.insertMeasurement();
+        //t.printResultOfSelect();
+        /*
         User u = t.printMixedResult("556613", "picke", "Jassumnevidliv21", "pece", "meckata", "13/12/2012", 176, 99,
                 "klinecot@gmail.com");
         if (u == null) {
@@ -44,28 +46,62 @@ public class SqlTest {
                 System.out.println(e.getLocalizedMessage());
             }
         }
+        */
+        String dateString1 = "11-26-2019 08:05:00.000";
+        String dateString2 = "11-26-2019 08:07:00.000";
+        Date time1 = null;
+        Date time2 = null;
+        try 
+        {
+            time1 = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS").parse(dateString1);
+            time2 = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS").parse(dateString2);
+            Timestamp tmp1 = new Timestamp(time1.getTime());
+            Timestamp tmp2 = new Timestamp(time2.getTime());
+            MeasurementRequest req = new MeasurementRequest(214600, 6, "Heart rate", dateString1, dateString2);
+            List<Measurement> list = t.getMeasurements(req, tmp1, tmp2);
+            for(Measurement m : list)
+            {
+                System.out.println(m.getTime().toString());
+                System.out.println(m.getValue());
+            }
+        } 
+        catch (ParseException e) 
+        {
+            System.out.println(e.getLocalizedMessage());
+        }
     }
 
     private void printResultOfSelect()
     {
-        String dbURL = "jdbc:sqlserver://localhost\\sqlexpress;databaseName=E-Zdravstvo;integratedSecurity=true";
+        String dbURL = "jdbc:sqlserver://localhost\\sqlexpress;databaseName=E-Zdravstvo";
         Connection conn = null;
         System.out.println("Trying to establish a connection with the database...");
         try 
         {
-            conn = DriverManager.getConnection(dbURL, "", "");
+            conn = DriverManager.getConnection(dbURL, "stefan", "123456");
             if(conn != null)
             {
+                String dateString1 = "11-26-2019 08:06:02.000";
+                String dateString2 = "11-26-2019 08:06:04.000";
+                Date time1 = null;
+                Date time2 = null;
                 System.out.println("Preparing and executing the query...");
-                String sql = "SELECT * FROM Person WHERE MBR_ID=?";
+                time1 = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS").parse(dateString1);
+                time2 = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS").parse(dateString2);
+                Timestamp tmp1 = new Timestamp(time1.getTime());
+                Timestamp tmp2 = new Timestamp(time2.getTime());
+                String sql = "SELECT * FROM Measurement WHERE TIME_MEASUREMENT BETWEEN ? AND ?";
                 PreparedStatement stm = conn.prepareStatement(sql);
-                stm.setString(1, "556610");
+                stm.setString(1, "214600");
+                stm.setString(2, "6");
+                stm.setTimestamp(3, tmp1);
+                stm.setTimestamp(4, tmp2);
                 ResultSet result = stm.executeQuery();
                 while(result.next())
                 {
-                    String fName = result.getString("FIRST_NAME");
-                    String lName = result.getString("LAST_NAME");
-                    System.out.println("Full name is: " + fName + " " + lName);
+                    String type = result.getString("TYPE_MEASUREMENT");
+                    String value = result.getString("VALUE_MEASUREMENT");
+                    System.out.println("Measurement info: " + type + ", " + value);
                 }
                 result.close();
             }
@@ -77,6 +113,10 @@ public class SqlTest {
         catch (SQLException e) 
         {
            System.out.println(e.getLocalizedMessage());
+        } 
+        catch (ParseException e) 
+        {
+            e.printStackTrace();
         }
         finally
         {
@@ -99,39 +139,35 @@ public class SqlTest {
         }
     }
 
-    private void printResultOfInsert()
+    private void insertMeasurement()
     {
-        String dbURL = "jdbc:sqlserver://localhost\\sqlexpress;databaseName=E-Zdravstvo;integratedSecurity=true";
+        String dbURL = "jdbc:sqlserver://localhost\\sqlexpress;databaseName=E-Zdravstvo";
         Connection conn = null;
         try
         {
             System.out.println("Trying to establish a connection with the database...");
-            conn = DriverManager.getConnection(dbURL, "", "");
+            conn = DriverManager.getConnection(dbURL, "stefan", "123456");
             if (conn != null) 
             {
                 System.out.println("Preparing and executing the query...");
-                String mbr = "412233";
-                String fname = "mendo";
-                String lname = "lasa";
-                String dateString = "15/12/2012";
-                int height = 178;
-                int weight = 76;
-                String email = "zorancho@gmail.com";
-                Date birthDate = null;
+                String mbr = "214600";
+                String deviceId = "6";
+                String type = "Heart rate";
+                String value = "98";
+                String dateString = "11-26-2019 08:06:03.238";
+                Date time = null;
                 try
                 {
-                    birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
-                    java.sql.Date sqlDate = new java.sql.Date(birthDate.getTime());
-                    String sql1 = "INSERT INTO Person (MBR_ID, FIRST_NAME, LAST_NAME, DATE_BIRTH, HEIGHT, WEIGHT, EMAIL)" +
-                    " VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    time = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS").parse(dateString);
+                    Timestamp sqlDate = new Timestamp(time.getTime());
+                    String sql1 = "INSERT INTO Measurement (MBR_ID, DEVICE_ID, TIME_MEASUREMENT, TYPE_MEASUREMENT, VALUE_MEASUREMENT)" 
+                    + " VALUES (?, ?, ?, ?, ?)";
                     PreparedStatement stm = conn.prepareStatement(sql1);
                     stm.setString(1, mbr);
-                    stm.setString(2, fname);
-                    stm.setString(3, lname);
-                    stm.setDate(4, sqlDate);
-                    stm.setInt(5, height);
-                    stm.setInt(6, weight);
-                    stm.setString(7, email);
+                    stm.setString(2, deviceId);
+                    stm.setTimestamp(3, sqlDate);
+                    stm.setString(4, type);
+                    stm.setString(5, value);
                     int rows = stm.executeUpdate();
                     if(rows == 0)
                     {
@@ -168,6 +204,94 @@ public class SqlTest {
                 else
                 {
                     System.out.println("The connection is closed.");
+                }
+            } 
+            catch (SQLException ex) 
+            {
+                System.out.println(ex.getLocalizedMessage());
+            }
+        }
+    }
+
+    private List<Measurement> getMeasurements(MeasurementRequest request, Timestamp before, Timestamp after)
+    {
+        List<Measurement> measurements = new ArrayList<>();
+        Connection conn = null;
+        try
+        {
+            String CONN_STRING = "jdbc:sqlserver://localhost\\sqlexpress;databaseName=E-Zdravstvo";
+            String DB_USER = "stefan";
+            String DB_PASS = "123456";
+            conn = DriverManager.getConnection(CONN_STRING, DB_USER, DB_PASS);
+            if(conn != null)
+            {
+                String sql1 = "SELECT * FROM Person WHERE MBR_ID=?";
+                PreparedStatement stm = conn.prepareStatement(sql1);
+                stm.setInt(1, request.getUserId());
+                ResultSet result = stm.executeQuery();
+                if(result.next())
+                {
+                    stm.close();
+                    String sql2 = "SELECT * FROM Person_Device WHERE MBR_ID=? AND DEVICE_ID=?";
+                    stm = conn.prepareStatement(sql2);
+                    stm.setInt(1, request.getUserId());
+                    stm.setInt(2, request.getDeviceId());
+                    result = stm.executeQuery();
+                    if(result.next())
+                    {
+                        stm.close();
+                        String sql3 = "SELECT * FROM Measurement WHERE MBR_ID=? AND DEVICE_ID=? AND TYPE_MEASUREMENT=? AND " +
+                        "TIME_MEASUREMENT BETWEEN ? AND ? ORDER BY TIME_MEASUREMENT ASC";
+                        stm = conn.prepareStatement(sql3);
+                        stm.setInt(1, request.getUserId());
+                        stm.setInt(2, request.getDeviceId());
+                        stm.setString(3, request.getType());
+                        stm.setTimestamp(4, before);
+                        stm.setTimestamp(5, after);
+                        result = stm.executeQuery();
+                        while(result.next())
+                        {
+                            int userId = result.getInt("MBR_ID");
+                            int deviceId = result.getInt("DEVICE_ID");
+                            String type = result.getString("TYPE_MEASUREMENT");
+                            String value = result.getString("VALUE_MEASUREMENT");
+                            Date time = result.getTimestamp("TIME_MEASUREMENT");
+                            Measurement m = new Measurement(userId, deviceId, time, type, value);
+                            measurements.add(m);
+                        }
+                        return measurements;
+                    }
+                    else
+                    {
+                        stm.close();
+                        conn.close();
+                        return null;
+                    }
+                }
+                else
+                {
+                    stm.close();
+                    conn.close();
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e.getLocalizedMessage());
+            return null;
+        }
+        finally
+        {
+            try 
+            {
+                if (conn != null && !conn.isClosed()) 
+                {
+                    conn.close();
                 }
             } 
             catch (SQLException ex) 
