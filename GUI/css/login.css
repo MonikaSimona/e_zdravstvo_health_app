@@ -5,6 +5,7 @@
   font-family: sans-serif;
 }
 
+
 html {
   scroll-behavior: smooth;
 }
@@ -101,7 +102,7 @@ body {
   width: 380px;
   height: 600px;
   position: relative;
-  margin: 3% auto;
+  margin: 2% auto;
   background: #c8fdbe9d;
   box-shadow: 8px 8px 15px -10px rgba(0, 0, 0, 0.56);
   border-radius: 5px;
@@ -197,7 +198,8 @@ body {
 .input-group {
   top: 100px;
   position: absolute;
-  width: 280px;
+padding-left: 16px;
+  width:280px;
   transition: 0.5s;
 }
 
@@ -225,12 +227,13 @@ select {
 }
 
 .submit-btn {
-  margin-top: 10px;
+ 
   width: 85%;
   padding: 10px 30px;
   cursor: pointer;
   display: block;
   margin: auto;
+  margin-top: 20px;
   font-size: 0.9rem;
   /* background: #d3ebe2; */
 
@@ -278,4 +281,54 @@ nav {
   align-items: center;
   box-shadow: 0 0px 15px -10px rgba(0, 0, 0, 0.507);
   margin-bottom: 20px;
+}
+
+/* snackbar so poraka za registracija */
+
+#snackbar-s, #snackbar-f, #logedError, #snackbar-e{
+  visibility: hidden;
+  min-width: 250px;
+  background-color: #c8fdbee0;
+  color: black;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 50px;
+  font-size: 17px;
+  border-radius: 5px;
+}
+#snackbar-f, #logedError, #snackbar-e{
+  background-color: #fdc7bee0;
+}
+
+
+
+#snackbar-s.show, #snackbar-f.show, #logedError.show, #snackbar-e.show{
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 50px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 50px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 50px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 50px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
 }

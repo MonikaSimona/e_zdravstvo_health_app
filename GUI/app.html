@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;1,400&display=swap"
         rel="stylesheet">
+    <link rel="shortcut icon" type="image/jpg" href="./assets/favicon.ico" />
+
     <title>Провери вредности</title>
 </head>
 
@@ -26,7 +28,7 @@
         <span class="hamburger-menu"><i class="fas fa-bars"></i></span>
         <span class="close-menu"><i class="fas fa-times"></i></span>
         <ul>
-            <li><a href="./index.html">Одјави се</a></li>
+            <li><a href="./index.html" id='logout'>Одјави се</a></li>
             <li><a href="./zaaplikacijata.html">За апликацијата</a></li>
             <li><a href="./info.html">Информации</a></li>
         </ul>
@@ -34,16 +36,32 @@
 
 
     <div class="user-info">
-        <h3>Здраво ИмеПрезиме <i class="fas fa-laugh"></i></h3>
+        <h3 id='userNameTitle'>Здраво ИмеПрезиме <i class="fas fa-laugh"></i></h3>
         <div class="device-select">
             <label for="">За кој уред сакаш да видиш информации?</label>
-            <select>
-                <option value="">Одбери паметен уред</option>
-                <option value="device1">уред1</option>
-                <option value="device2">уред2</option>
+            <select class="dropdown1">
+                <option value="" class="defaultOption">Немате одбрано уред</option>
+                <!--<option value="device1">уред1</option>
+                <option value="device2">уред2</option>-->
             </select>
         </div>
+        
+        <!--DODADENO TIP NA URED 02.06.-->
+
+        <div class="device-select2">
+            <label for="">Додади нов уред за следење:</label>
+            <select class="dropdown">
+                <option value="">Тип на уред</option>
+                <option value="device1">Паметен часовник</option>
+                <option value="device2">Паметен телефон</option>
+            </select>
+            <input type="text" class="inputdevice"   placeholder="Име на уред">
+
+            <button type="button" class="button_add">Додади</button>
+        </div>
     </div>
+
+
     <div class="main">
 
         <div class="chart">
@@ -55,7 +73,7 @@
         <form class="select-data-panel">
             <div class="type-select-section">
 
-                <select name="type" id="type">
+                <select name="type" id="type" class="dropdown">
                     <option value="">Одбери параметар</option>
                     <option value="kislorodnaSaturacija">Кислородна Сатурација</option>
                     <option value="otcukuvanjaNaSrceVoMinuta">Отчукувања на срце во минута</option>
@@ -81,16 +99,22 @@
                     <input type="date" name="end-date" id="">
                 </div>
             </div>
-            <button>Прикажи податоци</button>
+            <button type="button" class="btn">Прикажи податоци</button>
         </form>
 
     </div>
+    <div id="snackbar">Уредот е успешно додаден.</div>
+    <div id="snackbar-f">Поплни ги полињата за додавање уред.</div>
+    <div id="snackbar-e">Уред со тоа име веќе постои.</div>
 
 
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="./js/main.js"></script>
     <script src="https://kit.fontawesome.com/4979153394.js" crossorigin="anonymous"></script>
+    <!-- <script src="./js/loginRegister.js"></script> -->
+    <script src="./js/main.js"></script>
 </body>
 
 </html>
