@@ -18,13 +18,11 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 
 import ehealth.middleware.exceptions.InvalidDateFormatException;
-import ehealth.middleware.models.DeviceData;
 import ehealth.middleware.models.ErrorMessage;
 import ehealth.middleware.models.FullUser;
 import ehealth.middleware.models.LoginData;
 import ehealth.middleware.models.LoginUser;
 import ehealth.middleware.models.User;
-import ehealth.middleware.models.UserDevice;
 import ehealth.middleware.services.AuthenticationService;
 
 @Path("/auth")
@@ -74,35 +72,6 @@ public class AuthenticationResource
         {
             ErrorMessage msg = new ErrorMessage("Not acceptable", 406, "Please provide a birth date in a valid format of: dd-MM-yyyy.");
             throw new InvalidDateFormatException(msg);
-        }
-    }
-
-    @PUT
-    @Path("/addDevice")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response addDevice(DeviceData device)
-    {
-        if(device.equals(null))
-        {
-            ErrorMessage msg = new ErrorMessage("Not acceptable", 406, "Please provide an input object with credentials.");
-            Response rsp = Response.status(Status.NOT_ACCEPTABLE)
-            .entity(msg).build();
-            throw new NotAcceptableException(rsp);
-        }
-        UserDevice dvc = service.addDevice(device);
-        if(dvc == null)
-        {
-            ErrorMessage msg = new ErrorMessage("Not found", 404, "Either an incorrect user ID is provided" +
-            " or the device's name: " + device.getName() + " is already in use by this user.");
-            Response rsp = Response.status(Status.NOT_FOUND)
-            .entity(msg).build();
-            throw new NotFoundException(rsp);
-        }
-        else
-        {
-            return Response.status(Status.OK)
-            .entity(dvc).build();
         }
     }
 

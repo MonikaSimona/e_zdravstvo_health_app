@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import ehealth.middleware.models.DeviceData;
 import ehealth.middleware.models.FullUser;
 import ehealth.middleware.models.LoginData;
 import ehealth.middleware.models.LoginUser;
@@ -186,92 +185,6 @@ public class AuthenticationService
         {
             e.printStackTrace();
             return true;
-        }
-    }
-
-    public UserDevice addDevice(DeviceData device)
-    {
-        Connection conn = null;
-        try
-        {
-            conn = DriverManager.getConnection(CONN_STRING, DB_USER, DB_PASS);
-            if(conn != null)
-            {
-                String sql1 = "SELECT * FROM Person_Device WHERE MBR_ID=? AND NAME_DEVICE=?";
-                PreparedStatement stm = conn.prepareStatement(sql1);
-                stm.setInt(1, device.getUserId());
-                stm.setString(2, device.getName());
-                ResultSet res = stm.executeQuery();
-                if(res.next())
-                {
-                    stm.close();
-                    conn.close();
-                    return null;
-                }
-                else
-                {
-                    stm.close();
-                    String sql2 =  "INSERT INTO Person_Device (MBR_ID, TYPE_DEVICE, NAME_DEVICE)" +
-                    " VALUES (?, ?, ?)";
-                    stm = conn.prepareStatement(sql2);
-                    stm.setInt(1, device.getUserId());
-                    stm.setString(2, device.getType());
-                    stm.setString(3, device.getName());
-                    int rows = stm.executeUpdate();
-                    if(rows == 0)
-                    {
-                        stm.close();
-                        conn.close();
-                        return null;
-                    }
-                    else
-                    {
-                        stm.close();
-                        String sql3 = "SELECT * FROM Person_Device WHERE MBR_ID=? AND NAME_DEVICE=?";
-                        stm = conn.prepareStatement(sql3);
-                        stm.setInt(1, device.getUserId());
-                        stm.setString(2, device.getName());
-                        res = stm.executeQuery();
-                        if(res.next())
-                        {
-                            int id = res.getInt("DEVICE_ID");
-                            UserDevice dev = new UserDevice(id, device.getUserId(), device.getType(), device.getName());
-                            stm.close();
-                            conn.close();
-                            return dev;
-                        }
-                        else
-                        {
-                            stm.close();
-                            conn.close();
-                            return null;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
-        finally 
-        {
-            try 
-            {
-                if (conn != null && !conn.isClosed()) 
-                {
-                    conn.close();
-                }
-            } 
-            catch (SQLException ex) 
-            {
-                System.out.println(ex.getLocalizedMessage());
-            }
         }
     }
 
