@@ -196,7 +196,7 @@ addDevice.addEventListener('click', (event) => {
 
 
   } else {
-    fetchUserDevices('http://localhost:8080/middleware/webapi/auth/addDevice', userDevice)
+    fetchUserDevices('https://localhost:8443/middleware/webapi/ehealth/addDevice', userDevice)
       .then(data => {
         console.log("DEVICE", data)
 

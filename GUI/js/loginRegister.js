@@ -61,7 +61,7 @@ $(() => {
         // console.log(JSON.stringify(userLogin));
 
 
-        fetchUserData('http://localhost:8080/middleware/webapi/auth/login', userLogin)
+        fetchUserData('https://localhost:8443/middleware/webapi/auth/login', userLogin)
             .then(data => {
                 console.log("USER DATA", data)
                 localStorage.setItem("logedUser", JSON.stringify(data));
@@ -165,7 +165,7 @@ $(() => {
         //     event.target[8].value = ''
         // }
 
-        fetch('http://localhost:8080/middleware/webapi/auth/register', {
+        fetch('https://localhost:8443/middleware/webapi/auth/register', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
