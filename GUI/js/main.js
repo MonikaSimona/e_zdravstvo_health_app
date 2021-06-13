@@ -2,41 +2,16 @@
 
 // logedUser = { devices: [{ type: "phone", name: "sony" }, { type: "watch", name: "fitbit" }] }
 // localStorage.setItem("logedUser", JSON.stringify(logedUser))
-//CHART
 
-const labels = [
-  'Monday',
-  'Thuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-  'Sunday',
-];
-const data = {
-  labels: labels,
-  datasets: [{
-    label: 'My First dataset',
-    backgroundColor: 'rgb(182, 255, 99)',
-    borderColor: 'rgb(46, 61, 43)',
-    data: [16, 10, 5, 2, 20, 30, 45, 50],
-  }]
-};
 
-const config = {
-  type: 'line',
-  data,
-  options: {}
-};
 
-var chart = document.querySelector('#myChart');
-var myChart = new Chart(chart, config);
-var btn = document.querySelector('.btn');
 
-btn.addEventListener('click', () => {
 
-  document.documentElement.scrollTop = 1000;
-})
+
+
+
+
+
 
 //LOGED USER
 
@@ -90,12 +65,15 @@ closeMenu.addEventListener('click', () => {
   closeMenu.style.display = 'none';
 })
 
-
+var deviceNameString = ""
+var typeTitle = ""
+var typeValue = ""
 
 //TYPE INFO SECTION
 var typeInfoTitle = document.querySelector('#type-info-title');
 var typeInfoText = document.querySelector('#type-info-text');
 var type = document.querySelector('#type')
+
 
 var infoTexts = {
   kislorodnaSaturacija: 'Нормалните вредности на сатурација на кислород во артериската крв се 96-99 проценти. Ако вредноста падне под 90 проценти, состојбата се нарекува хипоксемија.',
@@ -131,7 +109,7 @@ if (userInfo) {
       let option = document.createElement("option")
       option.setAttribute("value", `option${index}`)
       option.innerHTML = item.name
-      console.log(option)
+      // console.log(option)
       defaultOption.insertAdjacentElement('afterend', option)
     });
 
@@ -181,6 +159,7 @@ addDevice.addEventListener('click', (event) => {
   event.preventDefault();
   var type = deviceType[deviceType.options.selectedIndex].innerHTML
   var name = deviceName.value
+
   var userId = JSON.parse(userInfo).id
   // console.log(deviceType.value)
   userDevice = {
@@ -217,8 +196,80 @@ addDevice.addEventListener('click', (event) => {
 
 
 
-
-
 });
 
+//CHART
+
+var date = document.querySelector("#date").value;
+var startHour = document.querySelector("#start-hour");
+var endHour = document.querySelector("#end-hour");
+
+var hourLabels = [];
+var startHourIndex;
+var endHourIndex;
+
+var btn = document.querySelector('.btn');
+
+data = {
+  labels: [],
+  datasets: [{
+    label: '',
+    backgroundColor: 'rgb(182, 255, 99)',
+    borderColor: 'rgb(46, 61, 43)',
+    data: [],
+  }]
+}
+var config = {
+  type: 'line',
+  data,
+  options: {}
+}
+var chart = document.querySelector('#myChart').getContext('2d');
+var myChart = new Chart(chart, config);
+
+function updateChart(newLabels, labelsLength) {
+  var newData = []
+  for (let index = 0; index < labelsLength; index++) {
+    newData.push(Math.random())
+  }
+  myChart.data.labels = newLabels
+  myChart.data.datasets[0].data = newData
+  myChart.update()
+}
+btn.addEventListener('click', () => {
+  document.documentElement.scrollTop = 1000;
+
+  startHourIndex = parseInt(startHour.value.split(":")[0]);
+  endHourIndex = parseInt(endHour.value.split(":")[0]);
+
+  console.log(startHourIndex,endHourIndex,devicesList[devicesList.options.selectedIndex].innerHTML,typeTitle,date,startHour.value,endHour.value)
+  if ((startHourIndex < endHourIndex)
+    && devicesList[devicesList.options.selectedIndex].innerHTML !== "Одбери паметен уред"
+    && typeTitle !== ""
+    && typeTitle !== "Одбери параметар"
+    && date !== ""
+    && startHour.value !== ""
+    && endHour.value !== ""
+  ) {
+    hourLabels = []
+    for (let index = startHourIndex; index <= endHourIndex; index++) {
+      console.log(index)
+      hourLabels.push(`${index}:00`)
+
+    }
+    updateChart(hourLabels, hourLabels.length)
+    console.log(document.querySelector(".typeName"),typeTitle)
+    document.querySelector(".typeName").innerHTML = typeTitle
+  } else {
+
+
+    var x = document.getElementById("snackbar-g");
+    x.className = "show";
+    setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+  }
+
+
+
+
+})
 

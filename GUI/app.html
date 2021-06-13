@@ -45,7 +45,7 @@
                 <option value="device2">уред2</option>-->
             </select>
         </div>
-        
+
         <!--DODADENO TIP NA URED 02.06.-->
 
         <div class="device-select2">
@@ -55,7 +55,7 @@
                 <option value="device1">Паметен часовник</option>
                 <option value="device2">Паметен телефон</option>
             </select>
-            <input type="text" class="inputdevice"   placeholder="Име на уред">
+            <input type="text" class="inputdevice" placeholder="Име на уред">
 
             <button type="button" class="button_add">Додади</button>
         </div>
@@ -65,7 +65,7 @@
     <div class="main">
 
         <div class="chart">
-            <h2>Име на параметар</h2>
+            <h2 class="typeName">Име на параметар</h2>
             <canvas id="myChart"></canvas>
 
         </div>
@@ -91,12 +91,16 @@
             </div>
             <div class="date-picker">
                 <div class="date-picker-item">
-                    <h4>Почетен датум</h4>
-                    <input type="date" name="start-date" id="">
+                    <h4>Избери датум</h4>
+                    <input type="date" name="date" id="date">
                 </div>
                 <div class="date-picker-item">
-                    <h4>Краен датум</h4>
-                    <input type="date" name="end-date" id="">
+                    <h4 class="hour-text"><span>Почетен час</span>  <span>Краен час</span></h4>
+                    <div class="time-picker">
+                        <input type="time" name="start-hour" id="start-hour">
+                        <input type="time" name="end-hour" id="end-hour">
+                    </div>
+
                 </div>
             </div>
             <button type="button" class="btn">Прикажи податоци</button>
@@ -106,6 +110,7 @@
     <div id="snackbar">Уредот е успешно додаден.</div>
     <div id="snackbar-f">Поплни ги полињата за додавање уред.</div>
     <div id="snackbar-e">Уред со тоа име веќе постои.</div>
+    <div id="snackbar-g">Внесете ги сите параметри</div>
 
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
