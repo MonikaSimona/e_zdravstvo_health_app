@@ -73,11 +73,12 @@ var typeValue = ""
 var typeInfoTitle = document.querySelector('#type-info-title');
 var typeInfoText = document.querySelector('#type-info-text');
 var type = document.querySelector('#type')
+type.value = ""
 
 
 var infoTexts = {
   kislorodnaSaturacija: 'Нормалните вредности на сатурација на кислород во артериската крв се 96-99 проценти. Ако вредноста падне под 90 проценти, состојбата се нарекува хипоксемија.',
-  otcukuvanjaNaSrceVoMinuta: 'Бројот на срцеви отчукувања во 30 секунди се смета, на така добиените резултати треба да се множи со два. Нормално, на број на удари во здраво машко треба да достигне 70, жените - 80 отчукувања во минута. ',
+  Hartrate: 'Бројот на срцеви отчукувања во 30 секунди се смета, на така добиените резултати треба да се множи со два. Нормално, на број на удари во здраво машко треба да достигне 70, жените - 80 отчукувања во минута. ',
   varijacijaNaSrcebienje: 'Кај луѓето на возраст од 50-60 г. нормално е да очекуваме варијација и покачување на крвниот притисок, но денес 40% од пациентите се под 60 г., односно 20-25% од пациентите се на возраст од 30-45 г., од кои почесто на удар се мажите.'
 }
 
@@ -155,6 +156,7 @@ async function fetchUserDevices(url, data) {
 
 // i da e prazna i da ne e praza devices listata moze da se doade nov ured na kraj na listata
 var devicesList = document.querySelector(".dropdown1")
+devicesList.value = ""
 addDevice.addEventListener('click', (event) => {
   event.preventDefault();
   var type = deviceType[deviceType.options.selectedIndex].innerHTML
@@ -168,7 +170,7 @@ addDevice.addEventListener('click', (event) => {
     userId
   }
 
-
+  var device = {}
   //ako inputite se prazni ne pravi nisto
   if (type === "" || name === "") {
     var x = document.getElementById("snackbar-f");
@@ -177,6 +179,7 @@ addDevice.addEventListener('click', (event) => {
   } else {
     fetchUserDevices('https://localhost:8443/middleware/webapi/ehealth/addDevice', userDevice)
       .then(data => {
+        device = data
         console.log("DEVICE", data)
 
       })
@@ -185,7 +188,7 @@ addDevice.addEventListener('click', (event) => {
     } else {
       //ako inputite se polni go dodava noviot ured vo selektot so uredi  i pojavuva poraka za dodavanje
 
-      devicesList.options[devicesList.options.length] = new Option(`${name} - ${type}`, `${devicesList.options.length - 1}`)
+      devicesList.options[devicesList.options.length] = new Option(`${name} - ${type}`, `${device.deviceId}`)
       var x = document.getElementById("snackbar");
 
     }
@@ -200,13 +203,17 @@ addDevice.addEventListener('click', (event) => {
 
 //CHART
 
-var date = document.querySelector("#date").value;
+var date = document.querySelector("#date");
 var startHour = document.querySelector("#start-hour");
 var endHour = document.querySelector("#end-hour");
 
 var hourLabels = [];
 var startHourIndex;
 var endHourIndex;
+var dateValue;
+
+var mesureError = false;
+
 
 var btn = document.querySelector('.btn');
 
@@ -227,10 +234,34 @@ var config = {
 var chart = document.querySelector('#myChart').getContext('2d');
 var myChart = new Chart(chart, config);
 
-function updateChart(newLabels, labelsLength) {
+//funkcija za zimanje na merenja od ured
+async function fetchDeviceMesurement(url, data) {
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive'
+
+    },
+    body: JSON.stringify(data)
+  })
+  console.log("RESPONSE STATUS", response.status);
+  if (response.status === 200) {
+    deviceError = false
+  } else {
+    deviceError = true
+  }
+  const mesurementData = await response.json();
+  console.log(mesurementData)
+  return mesurementData;
+
+}
+function updateChart(newLabels, labelsLength, mesurements) {
   var newData = []
   for (let index = 0; index < labelsLength; index++) {
-    newData.push(Math.random())
+    newData.push(mesurements[index].value)
   }
   myChart.data.labels = newLabels
   myChart.data.datasets[0].data = newData
@@ -241,8 +272,11 @@ btn.addEventListener('click', () => {
 
   startHourIndex = parseInt(startHour.value.split(":")[0]);
   endHourIndex = parseInt(endHour.value.split(":")[0]);
-
-  console.log(startHourIndex,endHourIndex,devicesList[devicesList.options.selectedIndex].innerHTML,typeTitle,date,startHour.value,endHour.value)
+  dateValue = date.value;
+  console.log("TYPE VALUE", typeValue)
+  console.log("Device,", devicesList[devicesList.options.selectedIndex].value)
+  console.log("startHour ", startHourIndex, "|endHour ", endHourIndex, "|deviceName ", devicesList[devicesList.options.selectedIndex].innerHTML, "|typeValue ", typeValue, "|date", dateValue, startHour.value, endHour.value)
+  //proveruva dali site polinja se popolneti
   if ((startHourIndex < endHourIndex)
     && devicesList[devicesList.options.selectedIndex].innerHTML !== "Одбери паметен уред"
     && typeTitle !== ""
@@ -257,9 +291,25 @@ btn.addEventListener('click', () => {
       hourLabels.push(`${index}:00`)
 
     }
-    updateChart(hourLabels, hourLabels.length)
-    console.log(document.querySelector(".typeName"),typeTitle)
+    const data = {
+      userId: `${JSON.parse(userInfo).userId}`,
+      deviceId: devicesList[devicesList.options.selectedIndex].value,
+      type: typeValue,
+      fromDate: `${dateValue} ${startHour.value}:00.000`,
+      toDate: `${dateValue} ${endHour.value}:00.000`
+    }
+    console.log("DATA TO SEND TO object ENDPOINT", JSON.stringify(data))
+    const fetchData = {}
+    fetchDeviceMesurement('https://localhost:8443/middleware/webapi/ehealth/object', data)
+      .then(data => {
+        console.log(data)
+        fetchData = data
+      })
+    console.log(fetchData)
+    console.log(document.querySelector(".typeName"), typeTitle)
     document.querySelector(".typeName").innerHTML = typeTitle
+    updateChart(hourLabels, hourLabels.length, fetchData[0])
+
   } else {
 
 
