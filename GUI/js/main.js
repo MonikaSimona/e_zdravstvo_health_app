@@ -286,11 +286,7 @@ btn.addEventListener('click', () => {
     && endHour.value !== ""
   ) {
     hourLabels = []
-    for (let index = startHourIndex; index <= endHourIndex; index++) {
-      console.log(index)
-      hourLabels.push(`${index}:00`)
-
-    }
+ 
     const data = {
       userId: `${JSON.parse(userInfo).userId}`,
       deviceId: devicesList[devicesList.options.selectedIndex].value,
@@ -306,9 +302,15 @@ btn.addEventListener('click', () => {
         fetchData = data
       })
     console.log(fetchData)
+
+    for (let index = 0; index <= fetchData.length -1; index++) {
+      console.log(fetchData[index].time.split("T")[1].split("+")[0])
+      hourLabels.push(fetchData[index].time.split("T")[1].split("+")[0])
+
+    }
     console.log(document.querySelector(".typeName"), typeTitle)
     document.querySelector(".typeName").innerHTML = typeTitle
-    updateChart(hourLabels, hourLabels.length, fetchData[0])
+    updateChart(hourLabels, hourLabels.length, fetchData)
 
   } else {
 
