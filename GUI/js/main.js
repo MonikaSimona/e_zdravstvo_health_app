@@ -286,11 +286,14 @@ btn.addEventListener('click', () => {
     && endHour.value !== ""
   ) {
     hourLabels = []
-
+    var typeV = ""
+    if (typeValue === "Heartrate") {
+      typeV = "Heart rate"
+    }
     const data = {
       userId: `${JSON.parse(userInfo).userId}`,
       deviceId: devicesList[devicesList.options.selectedIndex].value,
-      type: typeValue,
+      type: typeV,
       fromDate: `${dateValue} ${startHour.value}:00.000`,
       toDate: `${dateValue} ${endHour.value}:00.000`
     }
