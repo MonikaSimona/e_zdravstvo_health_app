@@ -292,7 +292,7 @@ btn.addEventListener('click', () => {
     if (typeValue === "Heartrate") {
       typeV = "Heart rate"
     }
-    const formatedDate = date.split("-")
+    const formatedDate = date.value.split("-")
     console.log("FORMATED DATE", formatedDate)
     const data = {
       userId: `${JSON.parse(userInfo).id}`,
