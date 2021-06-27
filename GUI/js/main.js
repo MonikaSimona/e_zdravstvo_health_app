@@ -102,19 +102,20 @@ var defaultOption = document.querySelector(".defaultOption")
 if (userInfo) {
   if (JSON.parse(userInfo).devices) {
     localDevices = JSON.parse(userInfo).devices
-    // console.log(localDevices)
+
+    console.log("SITE UREDI NA KORISNIKOT", localDevices)
     //ako ne e prazna vo default ipisuva slednoto
     defaultOption.innerHTML = "Одбери паметен уред"
     // i go polnuva selektot
     localDevices.forEach((item, index) => {
       let option = document.createElement("option")
-      option.setAttribute("value", `option${index}`)
+      option.setAttribute("value", `${item.id}`)
       option.innerHTML = item.name
       // console.log(option)
       defaultOption.insertAdjacentElement('afterend', option)
     });
 
-    // ako e prezna go ispisuva slednoto
+    // ako e prаzna go ispisuva slednoto
   } else {
     defaultOption.innerHTML = "Нема додадено уреди"
   }
@@ -287,7 +288,7 @@ btn.addEventListener('click', () => {
   ) {
     hourLabels = []
     var typeV = ""
-    console.log("USER INFO",userInfo)
+    console.log("USER INFO", userInfo)
     if (typeValue === "Heartrate") {
       typeV = "Heart rate"
     }
