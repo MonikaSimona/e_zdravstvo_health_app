@@ -287,6 +287,7 @@ btn.addEventListener('click', () => {
   ) {
     hourLabels = []
     var typeV = ""
+    console.log("USER INFO",userInfo)
     if (typeValue === "Heartrate") {
       typeV = "Heart rate"
     }
