@@ -306,7 +306,7 @@ btn.addEventListener('click', () => {
       toDate: `${formatedDate[1]}-${formatedDate[2]}-${formatedDate[0]} ${endHour.value}:00.000`
     }
     console.log("DATA TO SEND TO object ENDPOINT", JSON.stringify(data))
-    const fetchData = {}
+    var fetchData = {}
     fetchDeviceMesurement('https://localhost:8443/middleware/webapi/ehealth/object', data)
       .then(data => {
         console.log("FETCH DATA IN PROMISE", data)
@@ -314,14 +314,14 @@ btn.addEventListener('click', () => {
       })
     console.log("FETCH DATA", fetchData)
 
-    for (let index = 0; index <= mesurements.length - 1; index++) {
-      console.log(mesurements.mesurements[index].time.split("T")[1].split("+")[0])
-      hourLabels.push(mesurements.mesurements[index].time.split("T")[1].split("+")[0])
+    for (let index = 0; index <= fetchData.mesurements.length - 1; index++) {
+      console.log(fetchData.mesurements[index].time.split("T")[1].split("+")[0])
+      hourLabels.push(fetchData.mesurements[index].time.split("T")[1].split("+")[0])
 
     }
     // console.log(document.querySelector(".typeName"), typeTitle)
     document.querySelector(".typeName").innerHTML = typeTitle
-    updateChart(hourLabels, hourLabels.length, mesurements.mesurements)
+    updateChart(hourLabels, hourLabels.length, fetchData.mesurements)
 
   } else {
 
