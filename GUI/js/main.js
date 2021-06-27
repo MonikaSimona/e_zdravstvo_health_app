@@ -313,18 +313,19 @@ btn.addEventListener('click', () => {
           for (let index = 0; index <= data.measurements.length - 1; index++) {
             console.log(data.measurements[index].time.split("T")[1].split("+")[0])
             hourLabels.push(data.measurements[index].time.split("T")[1].split("+")[0])
-    
+
           }
+          // console.log(document.querySelector(".typeName"), typeTitle)
+          document.querySelector(".typeName").innerHTML = typeTitle
+          updateChart(hourLabels, hourLabels.length, data.measurements)
+          console.log("FETCH DATA IN PROMISE", data)
+          fetchData = data
         }
-    
-        // console.log(document.querySelector(".typeName"), typeTitle)
-        document.querySelector(".typeName").innerHTML = typeTitle
-        updateChart(hourLabels, hourLabels.length, data.measurements)
-        console.log("FETCH DATA IN PROMISE", data)
-        fetchData = data
+
+
       })
     // console.log("FETCH DATA", fetchData)
- 
+
 
   } else {
 
