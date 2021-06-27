@@ -255,7 +255,7 @@ async function fetchDeviceMesurement(url, data) {
     deviceError = true
   }
   const mesurementData = await response.json();
-  console.log(mesurementData)
+  console.log("MESUREMENTS DATA", mesurementData)
   return mesurementData;
 
 }
@@ -292,18 +292,20 @@ btn.addEventListener('click', () => {
     if (typeValue === "Heartrate") {
       typeV = "Heart rate"
     }
+    const formatedDate = date.split("-")
+    console.log("FORMATED DATE", formatedDate)
     const data = {
       userId: `${JSON.parse(userInfo).id}`,
       deviceId: devicesList[devicesList.options.selectedIndex].value,
       type: typeV,
-      fromDate: `${dateValue} ${startHour.value}:00.000`,
-      toDate: `${dateValue} ${endHour.value}:00.000`
+      fromDate: `${formatedDate[1]}-${formatedDate[2]}-${formatedDate[0]} ${startHour.value}:00.000`,
+      toDate: `${formatedDate[1]}-${formatedDate[2]}-${formatedDate[0]} ${endHour.value}:00.000`
     }
     console.log("DATA TO SEND TO object ENDPOINT", JSON.stringify(data))
     const fetchData = {}
     fetchDeviceMesurement('https://localhost:8443/middleware/webapi/ehealth/object', data)
       .then(data => {
-        console.log(data)
+        console.log("FETCH DATA IN PROMISE", data)
         fetchData = data
       })
     console.log("FETCH DATA", fetchData)
@@ -313,7 +315,7 @@ btn.addEventListener('click', () => {
       hourLabels.push(fetchData[index].time.split("T")[1].split("+")[0])
 
     }
-    console.log(document.querySelector(".typeName"), typeTitle)
+    // console.log(document.querySelector(".typeName"), typeTitle)
     document.querySelector(".typeName").innerHTML = typeTitle
     updateChart(hourLabels, hourLabels.length, fetchData)
 
