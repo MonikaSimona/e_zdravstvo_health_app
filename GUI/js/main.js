@@ -277,8 +277,8 @@ btn.addEventListener('click', () => {
   console.log("Device,", devicesList[devicesList.options.selectedIndex].value)
   console.log("startHour ", startHourIndex, "|endHour ", endHourIndex, "|deviceName ", devicesList[devicesList.options.selectedIndex].innerHTML, "|typeValue ", typeValue, "|date", dateValue, startHour.value, endHour.value)
   //proveruva dali site polinja se popolneti
-  if ((startHourIndex < endHourIndex)
-    && devicesList[devicesList.options.selectedIndex].innerHTML !== "Одбери паметен уред"
+  if (
+    devicesList[devicesList.options.selectedIndex].innerHTML !== "Одбери паметен уред"
     && typeTitle !== ""
     && typeTitle !== "Одбери параметар"
     && date !== ""
@@ -286,7 +286,7 @@ btn.addEventListener('click', () => {
     && endHour.value !== ""
   ) {
     hourLabels = []
- 
+
     const data = {
       userId: `${JSON.parse(userInfo).userId}`,
       deviceId: devicesList[devicesList.options.selectedIndex].value,
@@ -301,9 +301,9 @@ btn.addEventListener('click', () => {
         console.log(data)
         fetchData = data
       })
-    console.log(fetchData)
+    console.log("FETCH DATA", fetchData)
 
-    for (let index = 0; index <= fetchData.length -1; index++) {
+    for (let index = 0; index <= fetchData.length - 1; index++) {
       console.log(fetchData[index].time.split("T")[1].split("+")[0])
       hourLabels.push(fetchData[index].time.split("T")[1].split("+")[0])
 
