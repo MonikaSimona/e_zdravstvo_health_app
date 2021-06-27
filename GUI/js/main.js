@@ -314,14 +314,14 @@ btn.addEventListener('click', () => {
       })
     console.log("FETCH DATA", fetchData)
 
-    for (let index = 0; index <= fetchData.length - 1; index++) {
-      console.log(fetchData[index].time.split("T")[1].split("+")[0])
-      hourLabels.push(fetchData[index].time.split("T")[1].split("+")[0])
+    for (let index = 0; index <= mesurements.length - 1; index++) {
+      console.log(mesurements.mesurements[index].time.split("T")[1].split("+")[0])
+      hourLabels.push(mesurements.mesurements[index].time.split("T")[1].split("+")[0])
 
     }
     // console.log(document.querySelector(".typeName"), typeTitle)
     document.querySelector(".typeName").innerHTML = typeTitle
-    updateChart(hourLabels, hourLabels.length, fetchData)
+    updateChart(hourLabels, hourLabels.length, mesurements.mesurements)
 
   } else {
 
