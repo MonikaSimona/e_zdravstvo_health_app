@@ -188,7 +188,7 @@ addDevice.addEventListener('click', (event) => {
     } else {
       //ako inputite se polni go dodava noviot ured vo selektot so uredi  i pojavuva poraka za dodavanje
 
-      devicesList.options[devicesList.options.length] = new Option(`${name} - ${type}`, `${device.deviceId}`)
+      devicesList.options[devicesList.options.length] = new Option(`${name} - ${type}`, `${device.id}`)
       var x = document.getElementById("snackbar");
 
     }
@@ -292,7 +292,7 @@ btn.addEventListener('click', () => {
       typeV = "Heart rate"
     }
     const data = {
-      userId: `${JSON.parse(userInfo).userId}`,
+      userId: `${JSON.parse(userInfo).id}`,
       deviceId: devicesList[devicesList.options.selectedIndex].value,
       type: typeV,
       fromDate: `${dateValue} ${startHour.value}:00.000`,
