@@ -274,6 +274,7 @@ btn.addEventListener('click', () => {
   startHourIndex = parseInt(startHour.value.split(":")[0]);
   endHourIndex = parseInt(endHour.value.split(":")[0]);
   dateValue = date.value;
+  console.log("DATE VALUE", dateValue)
   console.log("TYPE VALUE", typeValue)
   console.log("Device,", devicesList[devicesList.options.selectedIndex].value)
   console.log("startHour ", startHourIndex, "|endHour ", endHourIndex, "|deviceName ", devicesList[devicesList.options.selectedIndex].innerHTML, "|typeValue ", typeValue, "|date", dateValue, startHour.value, endHour.value)
@@ -282,7 +283,7 @@ btn.addEventListener('click', () => {
     devicesList[devicesList.options.selectedIndex].innerHTML !== "Одбери паметен уред"
     && typeTitle !== ""
     && typeTitle !== "Одбери параметар"
-    && date !== ""
+    && dateValue !== ""
     && startHour.value !== ""
     && endHour.value !== ""
   ) {
@@ -292,7 +293,7 @@ btn.addEventListener('click', () => {
     if (typeValue === "Heartrate") {
       typeV = "Heart rate"
     }
-    const formatedDate = date.value.split("-")
+    const formatedDate = dateValue.split("-")
     console.log("FORMATED DATE", formatedDate)
     const data = {
       userId: `${JSON.parse(userInfo).id}`,
