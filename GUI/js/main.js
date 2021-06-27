@@ -309,19 +309,22 @@ btn.addEventListener('click', () => {
     var fetchData = {}
     fetchDeviceMesurement('https://localhost:8443/middleware/webapi/ehealth/object', data)
       .then(data => {
+        if (data) {
+          for (let index = 0; index <= data.measurements.length - 1; index++) {
+            console.log(data.measurements[index].time.split("T")[1].split("+")[0])
+            hourLabels.push(data.measurements[index].time.split("T")[1].split("+")[0])
+    
+          }
+        }
+    
+        // console.log(document.querySelector(".typeName"), typeTitle)
+        document.querySelector(".typeName").innerHTML = typeTitle
+        updateChart(hourLabels, hourLabels.length, data.measurements)
         console.log("FETCH DATA IN PROMISE", data)
         fetchData = data
       })
-    console.log("FETCH DATA", fetchData)
-
-    for (let index = 0; index <= fetchData.measurements.length - 1; index++) {
-      console.log(fetchData.measurements[index].time.split("T")[1].split("+")[0])
-      hourLabels.push(fetchData.measurements[index].time.split("T")[1].split("+")[0])
-
-    }
-    // console.log(document.querySelector(".typeName"), typeTitle)
-    document.querySelector(".typeName").innerHTML = typeTitle
-    updateChart(hourLabels, hourLabels.length, fetchData.measurements)
+    // console.log("FETCH DATA", fetchData)
+ 
 
   } else {
 
