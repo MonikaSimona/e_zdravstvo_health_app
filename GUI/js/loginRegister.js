@@ -65,7 +65,7 @@ $(() => {
             .then(data => {
                 console.log("USER DATA", data)
                 localStorage.setItem("logedUser", JSON.stringify(data));
-                setTimeout(() => {location.assign('http://localhost:5500/GUI/app.html')},2000)
+                
 
 
             })
@@ -77,7 +77,9 @@ $(() => {
             console.log(logedError)
             
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-        } 
+        } else{
+            setTimeout(() => {location.assign('http://localhost:5500/GUI/app.html')},2000)
+        }
 
 
   
