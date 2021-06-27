@@ -212,7 +212,7 @@ var hourLabels = [];
 var startHourIndex;
 var endHourIndex;
 var dateValue;
-
+var mesurements;
 var mesureError = false;
 
 
@@ -256,14 +256,17 @@ async function fetchDeviceMesurement(url, data) {
   }
   const mesurementData = await response.json();
   console.log("MESUREMENTS DATA", mesurementData)
+  mesurements = mesurementData;
   return mesurementData;
 
 }
 function updateChart(newLabels, labelsLength, mesurements) {
+  console.log("UPDATE CHART",newLabels, labelsLength, mesurements)
   var newData = []
   for (let index = 0; index < labelsLength; index++) {
     newData.push(mesurements[index].value)
   }
+  console.log("UPDATE CHART VALUES",newData)
   myChart.data.labels = newLabels
   myChart.data.datasets[0].data = newData
   myChart.update()
@@ -304,7 +307,7 @@ btn.addEventListener('click', () => {
     }
     console.log("DATA TO SEND TO object ENDPOINT", JSON.stringify(data))
     const fetchData = {}
-    fetchDeviceMesurement('https://localhost:8443/middleware/webapi/ehealth/object', data)
+    fetchData = await fetchDeviceMesurement('https://localhost:8443/middleware/webapi/ehealth/object', data)
       .then(data => {
         console.log("FETCH DATA IN PROMISE", data)
         fetchData = data
